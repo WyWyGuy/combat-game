@@ -1,0 +1,2752 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Combat Game</title>
+<style type="text/css" media="all">
+
+body {
+	font-size: 26px;
+	font-family: sans-serif;
+}
+
+.border {
+	border: 1px solid black;
+}
+
+.bottomlessBorder {
+	border-left: 1px solid black;
+	border-top: 1px solid black;
+	border-right: 1px solid black;
+}
+
+.borderBottom {
+	border-bottom: 1px solid black;
+}
+
+.marginTop10 {
+	margin-top: 10px;
+}
+
+.padded10 {
+	padding: 10px;
+}
+
+.padded10V {
+	padding: 10px 0;
+}
+
+.padded3 {
+	padding: 3px;
+}
+
+.padded3Spaced {
+	padding: 10px 3px;
+}
+
+.textWrap {
+	overflow-wrap: break-word;
+}
+
+.width100 {
+	width: 100%;
+}
+
+.height37 {
+	height: 37px;
+}
+
+.relative {
+	position: relative;
+}
+
+.absolute {
+	position: absolute;
+}
+
+.bottom {
+	height: 500px;
+	overflow-y: auto;
+	box-sizing: border-box;
+	position: sticky;
+	bottom: 25px;
+	background-color: white;
+	z-index: 3;
+}
+
+#board p {
+	font-size: 26px;
+	margin: 0;
+	max-height: 100px;
+}
+
+#debug p {
+	max-height: 100px;
+}
+
+.half {
+	flex: 1;
+	box-sizing: border-box;
+	min-height: 500px;
+	max-width: calc(50% - 12.5px);
+}
+
+.fullX {
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.fullY {
+	height: 100%;
+	box-sizing: border-box;
+}
+
+.gap25 {
+	gap: 25px;
+}
+
+.left30 {
+	text-align: left;
+	width: 30%;
+}
+
+.left50 {
+	text-align: right;
+	width: 50%;
+	padding-right: 7px;
+}
+
+.left70 {
+	text-align: left;
+	width: 70%;
+}
+
+.left80 {
+	text-align: left;
+	width: 80%;
+}
+
+.right70 {
+	text-align: right;
+	width: 70%;
+}
+
+.right50 {
+	text-align: left;
+	width: 50%;
+	padding-left: 7px;
+}
+
+.right30 {
+	text-align: right;
+	width: 30%;
+}
+
+.right20 {
+	text-align: right;
+	width: 20%;
+}
+
+.spaceEvenly {
+	display: flex;
+	justify-content: space-evenly;
+}
+
+.spaceBetween {
+	display: flex;
+	justify-content: space-between;
+}
+
+.flexRow {
+	display: flex;
+	flex-direction: row;
+}
+
+.flexColumn {
+	display: flex;
+	flex-direction: column;
+}
+
+.flexBattles {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+	margin-bottom: 26px;
+}
+
+.center {
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: center;
+}
+
+.centerText {
+	text-align: center;
+}
+
+.rightText {
+	text-align: right;
+}
+
+.centerRight {
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-end;
+}
+
+.buttonStart {
+	padding: 6px;
+	width: 150px;
+	height: 60px;
+	font-size: 26px;
+}
+
+.buttonSelect {
+	height: 100%;
+	padding: 4px;
+	box-sizing: border-box;
+	font-size: 23px;
+}
+
+.buttonBattle {
+	width: 130px;
+	text-align: center;
+	font-size: 26px;
+	padding: 6px;
+}
+
+.buttonProfile {
+	padding: 4px;
+	width: 30%;
+	height: 50px;
+	font-size: 26px;
+}
+
+.buttonBoss {
+	min-width: 150px;
+	text-align: center;
+	font-size: 32px;
+	padding: 6px;
+	font-weight: bold;
+}
+
+.buttonClose {
+	font-size: 52px;
+	font-weight: bold;
+	padding: 3px;
+	left: 15px;
+	top: 15px;
+	text-align: center;
+	height: 70px;
+	width: 70px;
+	box-sizing: border-box;
+}
+
+.buttonAchievement {
+	text-align: center;
+	font-size: 26px;
+	padding: 6px;
+	width: 100%;
+	border: 1px solid black;
+	border-radius: 0px;
+}
+
+.buttonWinLose {
+	padding: 6px;
+	width: 200px;
+	height: 60px;
+	font-size: 26px;
+	background-color: rgba(255, 255, 255,  75%);
+	border: 2px solid black;
+	border-radius: 10px;
+}
+
+.input {
+	width: 500px;
+	font-size: 26px;
+	text-align: center;
+	border: 2px solid black;
+	border-radius: 0px;
+	padding: 3px;
+}
+
+.barGreen {
+	left: 0;
+	top: 0;
+	height: 37px;
+	background-color: #33AA33;
+}
+
+.barRed {
+	left: 0;
+	top: 0;
+	height: 37px;
+	background-color: #DD2222;
+}
+
+.barBlue {
+	left: 50%;
+	top: 0;
+	height: 37px;
+	background-color: #2288CC;
+	border-left: 1px solid black;
+}
+
+.barGreenText {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	text-align: center;
+	z-index: 1;
+}
+
+.barRedText {
+	position: absolute;
+	left: 25%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	text-align: center;
+	z-index: 1;
+}
+
+.barBlueText {
+	position: absolute;
+	left: 75%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	text-align: center;
+	z-index: 1;
+}
+
+.greenText {
+	color: #33AA33;
+}
+
+.redText {
+	color: #DD2222;
+}
+
+.blueText {
+	color: #2288CC;
+}
+
+.italic {
+	font-style: italic;
+}
+
+.white {
+	background-color: #FFFFFF;
+}
+
+.brown {
+	background-color: #DD7722;
+}
+
+.blue {
+	background-color: #2288CC;
+}
+
+.purple {
+	background-color: #660066;
+}
+
+.gold {
+	background-color: #FFD700;
+}
+
+.bossBreak {
+	margin: 2px auto;
+	border: 1px solid black;
+	height: 28px;
+}
+
+.overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.3);
+}
+
+.zindex2 {
+	z-index: 2;
+}
+
+.zindex4 {
+	z-index: 4;
+}
+
+.deleteMessage {
+	width: 50%;
+	height: 25%;
+	background-color: #FFFFFF;
+	border: 1px solid white;
+	border-radius: 20px;
+}
+
+.profile {
+	width: 32%;
+}
+
+.summaryTable {
+	border-collapse: collapse;
+	text-align: center;
+	margin: 0 auto;
+}
+
+.summaryTableData {
+	width: 35px;
+	height: 35px;
+	border: 2px solid black;
+	padding: 1px;
+}
+
+.achievementMenu {
+	width: 90%;
+	height: 95%;
+	background-color: #FFFFFF;
+	border: 1px solid white;
+	border-radius: 20px;
+}
+
+.achievementTitle {
+	font-size: 60px;
+	font-weight: bold;
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+
+.achievementLabel {
+	text-align: left;
+	font-size: 46px;
+	font-weight: bold;
+}
+
+.achievementDescription {
+	text-align: left;
+	font-size: 36px;
+}
+
+.earned {
+	color: rgba(0, 0, 0, 1);
+}
+
+.unearned {
+	color: rgba(0, 0, 0, 0.4);
+}
+
+.statusContainer3 {
+	width: calc(100%/3);
+	box-sizing: border-box;
+}
+
+.statusContainer2 {
+	width: 50%;
+	box-sizing: border-box;
+}
+
+.burnHighlight {
+	background-color: #DD2200;
+	color: #FFFFFF;
+	border: 1px solid #BB0000;
+}
+
+.burnDefault {
+	background-color: rgba(255, 255, 255, 0);
+	color: #DD2200;
+	border: 1px solid #BB0000;
+}
+
+.buffHighlight {
+	background-color: #DD9900;
+	color: #FFFFFF;
+	border: 1px solid #BB7700;
+}
+
+.buffDefault {
+	background-color: rgba(255, 255, 255, 0);
+	color: #DD9900;
+	border: 1px solid #BB7700;
+}
+
+.reflectHighlight {
+	background-color: #BBBB22;
+	color: #FFFFFF;
+	border: 1px solid #999900;
+}
+
+.reflectDefault {
+	background-color: rgba(255, 255, 255, 0);
+	color: #BBBB22;
+	border: 1px solid #999900;
+}
+
+.stunHighlight {
+	background-color: #229922;
+	color: #FFFFFF;
+	border: 1px solid #007700;
+}
+
+.stunDefault {
+	background-color: rgba(255, 255, 255, 0);
+	color: #229922;
+	border: 1px solid #007700;
+}
+
+.immuneHighlight {
+	background-color: #7777DD;
+	color: #FFFFFF;
+	border: 1px solid #5555BB;
+}
+
+.immuneDefault {
+	background-color: rgba(255, 255, 255, 0);
+	color: #7777DD;
+	border: 1px solid #5555BB;
+}
+
+.superHighlight {
+	background-color: #772277;
+	color: #FFFFFF;
+	border: 1px solid #550055;
+}
+
+.superDefault {
+	background-color: rgba(255, 255, 255, 0);
+	color: #772277;
+	border: 1px solid #550055;
+}
+
+.superEffect {
+	font-weight: bold;
+}
+
+.currentTurn {
+	background-color: #FFF5D3;
+}
+
+.winLoseOverlay {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.winLoseMessage {
+	width: 67%;
+	height: 300px;
+	background-color: rgba(255, 255, 255, 75%);
+	border: 1px solid white;
+	border-radius: 20px;
+	margin-top: 30px;
+}
+
+#achievementNotifications {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 5;
+	pointer-events: none;
+}
+
+.notification {
+	box-sizing: border-box;
+	background-color: rgba(255, 255, 255, 95%);
+	padding: 20px;
+	font-weight: bold;
+	border: 1px solid white;
+	border-radius: 20px;
+	width: calc(100% - 40px);
+	height: 150px;
+	margin-left: 20px;
+	margin-right: 20px;
+	margin-top: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	pointer-events: auto;
+	opacity: 1;
+	transition: opacity 2s;
+}
+
+.invisible {
+	opacity: 0;
+	pointer-events: none;
+}
+
+.achievementCount {
+	font-size: 52px;
+	font-weight: bold;
+	padding: 3px;
+	right: 15px;
+	top: 15px;
+	text-align: center;
+	height: 70px;
+	width: 70px;
+	box-sizing: border-box;
+}
+
+</style>
+</head>
+<body>
+
+<div class="flexColumn fullX gap25">
+	<div class="flexRow fullX gap25">
+		<div class="border half padded10 textWrap" id="playerBox"></div>
+		<div class="border half padded10 textWrap" id="enemyBox"></div>
+	</div>
+	<div class="border fullX padded10 textWrap bottom" id="board"></div>
+</div>
+<div id="achievementNotifications"></div>
+
+<!--Debug console section-->
+<div class="fullX padded10 textWrap" id='debug'></div>
+
+<!--Debug error catcher-->
+<script>
+
+function formatNumber(input, digits) {
+	let string = input.toString();
+	while (string.length < digits) {
+		string = "0" + string;
+	}
+	return string;
+}
+
+window.onerror = function (message, url, line, column, error) {
+	let output = document.getElementById('debug');
+	let code = document.documentElement.outerHTML;
+	let codeLines = code.split('\n').map((line) => line.replace(/ /g, '\u00A0')).map(String);
+	let lineDigits = (codeLines.length).toString().length;
+	let errorMessage = document.createElement('p');
+	let errorStack = error.stack || "";
+	let stackTrace = errorStack.split('\n').map((line) => line.replace(/ /g, '\u00A0')).map(String);
+	let stackTraceLines = stackTrace.join('<br>');
+	errorMessage.innerHTML += `Error: ${message} (Line ${line}, Column ${column})<br/><br/>`;
+	for (let i = -2; i <= 2; i++) {
+		let codeLine = document.createElement('text');
+		codeLine.textContent = formatNumber((line+i).toString(), lineDigits).toString() + ": " + codeLines[line-3+i].toString();
+		errorMessage.appendChild(codeLine);
+		errorMessage.appendChild(document.createElement('br'));
+	}
+	errorMessage.innerHTML += "<br/>Details: <br/>";
+	errorMessage.innerHTML += stackTraceLines;
+/*
+	errorMessage.innerHTML += "<br/><br/>";
+	for (let i = 0; i < codeLines.length; i++) {
+		let codeLine = document.createElement('text');
+		codeLine.textContent = formatNumber((i+3).toString(), lineDigits).toString() + ": " + codeLines[i].toString();
+		errorMessage.appendChild(codeLine);
+		errorMessage.appendChild(document.createElement('br'));
+	}
+*/
+	output.appendChild(errorMessage);
+};
+
+function elog(thing) {
+	let output = document.getElementById('debug');
+	let log = document.createElement('p');
+	log.textContent = "Console log: " + JSON.stringify(thing);
+	output.appendChild(log);
+}
+
+</script>
+
+<script>
+
+var player;
+var player1;
+var player2;
+var player3;
+var players;
+var slot;
+
+var item1 = "Potion of Healing";
+var item2 = "Potion of Mana";
+var item3 = "Potion of Strength";
+var item4 = "Potion of Reflection";
+var item5 = "Potion of Immunity";
+
+var spell1 = "Health Steal";
+var spell2 = "Set Flame";
+var spell3 = "Mana Drain";
+var spell4 = "Blinding Light";
+var spell5 = "Supercharge";
+
+var baseMove = "Attack";
+var doctorMove = "Healing Circle";
+var boss1Move1 = "Absorb";
+var boss1Move2 = "Restore";
+var rockMove = "Exist";
+var makerMove = "Make Minions";
+var boss2Move1 = "Make Minion Maker";
+var pyroMove1 = spell2;
+var pyroMove2 = "Flaming Dart";
+var boss3Move1 = "Increase Coverage";
+var boss3Move1Count = 1;
+var sporeMove = "Poison Needle";
+var firestormMove = "Summon Firestorm";
+var supportMove1 = "Disperse Strength";
+var supportMove2 = "Disperse Reflect";
+var supportMove3 = "Disperse Immunity";
+var permaReflect = "Passive Reflection";
+var boss4Move1 = spell2;
+var boss4Move2 = "Super " + spell4;
+var boss4Move3 = "Status Swap";
+var evolveMove = "Evolve";
+
+var enemy11 = "Mite";
+var enemy12 = "Soldier";
+var enemy13 = "Doctor";
+var enemy21 = "Minion";
+var enemy22 = "Specular Rock";
+var enemy23 = "Minion Maker";
+var enemy31 = "Tank";
+var enemy32 = "Giant";
+var enemy33 = "Pyromaniac";
+var enemy41 = "Stun Spore";
+var enemy42 = "Firestorm Drone";
+var enemy43 = "Support Drone";
+var enemy51 = "Treasure Hoarder";
+var enemy52 = "Cocoon";
+var enemy53 = "Hydra";
+
+var enemyNames = [enemy11, enemy12, enemy13, enemy21, enemy22, enemy23, enemy31, enemy32, enemy33, enemy41, enemy42, enemy43, enemy51, enemy52, enemy53];
+
+var boss1 = "Health Sponge";
+var boss2 = "Minion Maker Maker";
+var boss3 = "Ancient Expanding Weed";
+var boss4 = "Status Mage";
+var boss5 = "Codex, World Destroyer";
+var bossSecret = "Galax, Consumer of Universes";
+
+var itemLibrary = {
+	[item1]: {
+		description: "Replenish all health",
+		quantity: 0
+	},
+	[item2]: {
+		description: "Replenish all mana",
+		quantity: 0
+	},
+	[item3]: {
+		description: "Double your damage for the next 3 turns",
+		quantity: 0
+	},
+	[item4]: {
+		description: "Reflect 50% of damage back until the next turn",
+		quantity: 0
+	},
+	[item5]: {
+		description: "Cure burn and stun for the next 2 turns",
+		quantity: 0
+	}
+};
+
+var spellLibrary = {
+	[spell1]: {
+		description: "Steal health equivalent to your level + 2",
+		cost: Infinity
+	},
+	[spell2]: {
+		description: "Burn all enemies",
+		cost: 15
+	},
+	[spell3]: {
+		description: "Use all mana, doing 1 damage per mana",
+		cost: Infinity
+	},
+	[spell4]: {
+		description: "Stun all enemies",
+		cost: 25
+	},
+	[spell5]: {
+		description: "Make your next attack or spell more powerful",
+		cost: 10
+	}
+};
+
+var achievementLibrary = {
+	"Medal of Courage": {
+		description: `Defeated ${boss1}!`,
+		hint: "Defeat the first boss"
+	},
+	"Medal of Endurance": {
+		description: `Defeated ${boss2}!`,
+		hint: "Defeat the second boss"
+	},
+	"Medal of Strength": {
+		description: `Defeated ${boss3}!`,
+		hint: "Defeat the third boss"
+	},
+	"Medal of Honor": {
+		description: `Defeated ${boss4}!`,
+		hint: "Defeat the fourth boss"
+	},
+	"Medal of Peace": {
+		description: `Defeated ${boss5}!`,
+		hint: "Defeat the final boss"
+	}
+};
+
+var enemyLibrary = {
+	[enemy11]: function(dif) {return new Creature(enemy11, 1, Math.min(Math.max(((dif*2) + 1), 3), 9), Math.min(Math.max((dif), 1), 4), {})},
+	[enemy12]: function(dif) {return new Creature(enemy12, 2, Math.min(Math.max((dif*5), 5), 20), Math.min(Math.max(((dif*2) - 1), 2), 6), {})},
+	[enemy13]: function(dif) {return new Creature(enemy13, 3, Math.min(Math.max(((dif*5) + 1), 6), 21), Math.min(Math.max((dif), 1), 4), {[item1]: 5})},
+	[enemy21]: function(dif) {return new Creature(enemy21, 0, 1, 1, {})},
+	[enemy22]: function(dif) {return new Creature(enemy22, 1, Math.min(Math.max((dif*6), 30), 45), 0, {[item1]: 1, [item4]: 12})},
+	[enemy23]: function(dif) {return new Creature(enemy23, 4, Math.min(Math.max(((dif*5) - 1), 24), 39), Math.min(Math.max((dif - 3), 2), 5), {})},
+	[enemy31]: function(dif) {return new Creature(enemy31, 4, Math.min(Math.max(((30 + (5*(dif - 9)))), 30), 45), Math.min(Math.max((13 + (2*(dif - 9))), 13), 19), {[item3]: 20})},
+	[enemy32]: function(dif) {return new Creature(enemy32, 3, Math.min(Math.max((dif*10), 90), 120), Math.min(Math.max((Math.floor(dif/2)), 4), 6), {[item1]: 1})},
+	[enemy33]: function(dif) {return new Creature(enemy33, 2, Math.min(Math.max((dif*2), 18), 24), Math.min(Math.max((dif - 5), 4), 7), {[item5]: 5})},
+	[enemy41]: function(dif) {return new Creature(enemy41, 2, Math.min(Math.max((dif + 3), 16), 19), Math.min(Math.max((Math.floor(dif/2)), 6), 8), {[item4]: 12})},
+	[enemy42]: function(dif) {return new Creature(enemy42, 3, Math.min(Math.max((Math.ceil(dif*2.5)), 33), 40), Math.min(Math.max((Math.floor(dif*2/3)), 8), 10), {[item5]: 6})},
+	[enemy43]: function(dif) {return new Creature(enemy43, 4, Math.min(Math.max((Math.ceil(dif*2.5)), 33), 40), Math.min(Math.max((Math.floor(dif*2/3)), 8), 10), {})},
+	[enemy51]: function(dif) {return new Creature(enemy51, 2, Math.min(Math.max((Math.floor(dif*6)), 102), 120), Math.min(Math.max((11 + (dif - 17)), 11), 14), {[item1]: 1, [item3]: 5, [item4]: 5, [item5]: 5})},
+	[enemy52]: function(dif) {return new Creature(enemy52, 1, Math.min(Math.max((dif*12), 204), 240), Math.min(Math.max((Math.ceil(dif/2)), 9), 10), {[item5]: 10})},
+	[enemy53]: function(dif) {return new Creature(enemy53, 3, Math.min(Math.max((40 + Math.round(((40/3)*(dif - 17)))), 40), 80), Math.min(Math.max((25 + (2*(dif-17))), 25), 31), {[item3]: 1})}
+};
+
+var bossLibrary = {
+	[boss1]: function(dif) {return new Creature(boss1, 4, 10, Math.min(Math.max((Math.ceil(dif/2)), 2), 4), {[item1]: 1})},
+	[boss2]: function(dif) {return new Creature(boss2, 8, Math.min(Math.max((dif*10), 80), 110), Math.min(Math.max(Math.floor(dif), 8), 11), {[item4]: 3})},
+	[boss3]: function(dif) {return new Creature(boss3, 12, Math.min(Math.max((dif*100), 1200), 1500), 1, {})},
+	[boss4]: function(dif) {return new Creature(boss4, 16, Math.min(Math.max((dif*20), 320), 380), Math.min(Math.max((Math.floor(dif*1.25) - 1), 19), 22), {[item1]: 5, [item3]: 99, [item5]: 99})},
+	[boss5]: function(dif) {return new Creature(boss5, 20, 10, 1, {})},
+	[bossSecret]: function(dif) {return new Creature(bossSecret, 999, 10, 1, {})}
+};
+
+function Creature(name = "undefined", level = 1, health = 1, damage = 0, defaultItems = {}) {
+	this.name = name;
+	this.level = level;
+	this.health = health;
+	this.currentHealth = health;
+	this.damage = damage;
+	this.items = {};
+	if ([boss4].includes(name)) {
+		this.status = new Proxy({"Burned": 0, "Buffed": [], "Reflecting": false, "Stunned": 0, "Immune": 0}, {
+			set: (target, property, value) => {
+				target[property] = value;
+				if (property === "Stunned") {
+					if (value > 0) {
+						target["Reflecting"] = false;
+					} else if (value === 0) {
+						target["Reflecting"] = true;
+					}
+				}
+			return true;
+			}
+		});
+	} else {
+		this.status = {"Burned": 0, "Buffed": [], "Reflecting": false, "Stunned": 0, "Immune": 0};
+	}
+	if (this.name == boss4) {
+		this.status["Reflecting"] = true;
+	}
+	for (const item in defaultItems) {
+		if (itemLibrary[item]) {
+			this.items[item] = {...itemLibrary[item]};
+			this.items[item].quantity = defaultItems[item];
+		}
+	}
+}
+
+function generateItems(enemy, modifier) {
+	let copiedItems = {...enemy.items};
+	enemy.items = {};
+	let generatedItems = {};
+	for (item in itemLibrary) {
+		if (item != item2 && player.items[item]) {
+			let prob = 0.5 + (modifier*0.2);
+			while (true) {
+				if ((enemy.name == enemy22) && (item == item3)) {
+					break;
+				}
+				if (Math.random() <= prob) {
+					if (!generatedItems[item]) {
+						generatedItems[item] = {...itemLibrary[item]};
+					}
+					generatedItems[item].quantity = Math.min((generatedItems[item].quantity + 1), 99);
+					prob /= 2;
+				} else {
+					break;
+				}
+			}
+		}
+	}
+	for (item in itemLibrary) {
+		if (((copiedItems[item]) && (copiedItems[item].quantity > 0)) || ((generatedItems[item]) && (generatedItems[item].quantity > 0))) {
+			enemy.items[item] = {...itemLibrary[item]};
+			enemy.items[item].quantity = Math.min((((copiedItems[item]) ? (copiedItems[item].quantity) : (0)) + ((generatedItems[item]) ? (generatedItems[item].quantity) : (0))), 99);
+		}
+	}
+}
+
+function Character(name = "New Profile", level = 1, exp = 0, health = 10, damage = 3, mana = 5, defaultItems = {}, defaultSpells = [], defaultAchievements = [], unlockedEnemies = [enemy11, enemy12, enemy13]) {
+	this.name = name;
+	this.level = level;
+	this.exp = exp;
+	this.health = health;
+	this.currentHealth = health;
+	this.damage = damage;
+	this.mana = mana;
+	this.currentMana = mana;
+	this.items = {};
+	this.spells = {};
+	this.achievements = {};
+	this.unlockedEnemies = unlockedEnemies;
+	this.status = {"Burned": 0, "Buffed": [], "Reflecting": false, "Stunned": 0, "Immune": 0, "Supercharged": 1};
+	for (const item in defaultItems) {
+		if (itemLibrary[item]) {
+			this.items[item] = {...itemLibrary[item]};
+			this.items[item].quantity = defaultItems[item];
+		}
+	}
+	for (const spell of defaultSpells) {
+		if (spellLibrary[spell]) {
+			this.spells[spell] = {...spellLibrary[spell]};
+		}
+	}
+	for (const achievement of defaultAchievements) {
+		if (achievementLibrary[achievement]) {
+			this.achievements[achievement] = {...achievementLibrary[achievement]};
+		}
+	}
+}
+
+function renderPlayer(combat, active) {
+	let highlighted;
+	try {
+		highlighted = document.getElementById('activePlayer').classList.contains('currentTurn');
+	} catch (error) {
+		highlighted = false;
+	}
+	document.getElementById('playerBox').innerHTML = "";
+	let output = "";
+	output += "<div id='activePlayer' class='bottomlessBorder fullX flexColumn" + (highlighted? ' currentTurn' : '') + "'>";
+	output += "<div class='fullX flexRow borderBottom padded3'>";
+	output += "<div class='left70'>";
+	output += player.name.toString();
+	output += "</div>";
+	output += "<div class='right30'>";
+	output += "Level ";
+	output += player.level.toString();
+	output += "</div>";
+	output += "</div>";
+	output += "<div class='fullX flexRow borderBottom'>";
+	output += "<div class='relative height37 width100'>";
+	let percentageExp = Math.min((player.exp/player.level), 100);
+	output += "<div class='barGreen' style='width: " + percentageExp.toString() + "%;'>";
+	output += "</div>";
+	output += "<div class='barGreenText'>";
+	output += player.exp.toString() + "/" + (player.level*100).toString();
+	output += "</div>";
+	output += "</div>";
+	output += "</div>";
+	output += "<div class='fullX flexRow borderBottom'>";
+	output += "<div class='relative height37 flexRow width100'>";
+	output += "<div style='width: 50%;'>";
+	let percentageHealth = Math.min((100*(player.currentHealth/player.health)), 100);
+	output += "<div class='barRed' style='width: " + percentageHealth.toString() + "%;'>";
+	output += "</div>";
+	output += "</div>";
+	output += "<div style='width: calc(50% - 0.5px);'>";
+	let percentageMana = Math.min((100*(player.currentMana/player.mana)), 100);
+	output += "<div class='barBlue' style='width: " + percentageMana.toString() + "%;'>";
+	output += "</div>";
+	output += "</div>";
+	output += "<div class='barRedText'>";
+	output += player.currentHealth.toString() + "/" + player.health.toString();
+	output += "</div>";
+	output += "<div class='barBlueText'>";
+	output += player.currentMana.toString() + "/" + player.mana.toString();
+	output += "</div>";
+	output += "</div>";
+	output += "</div>";
+	output += "<div class='fullX flexRow padded3 center'>Status Effects:</div>";
+	output += "<div class='fullX flexRow'>";
+	if (player.status["Burned"] > 1) {
+		output += "<div class='statusContainer3 padded3 centerText burnHighlight superEffect'>Burned</div>";
+	} else if (player.status["Burned"] == 1) {
+		output += "<div class='statusContainer3 padded3 centerText burnHighlight'>Burned</div>";
+	} else if (player.status["Burned"] == 0) {
+		output += "<div class='statusContainer3 padded3 centerText burnDefault'>Normal</div>";
+	}
+	if (player.status["Buffed"].length > 0) {
+		output += "<div class='statusContainer3 padded3 centerText buffHighlight'>";
+		let buffLevel = "";
+		for (let i = 0; i < player.status["Buffed"].length; i++) {
+			buffLevel += "x2 ";
+		}
+		output += buffLevel.trim()
+		output += "</div>";
+	} else if (player.status["Buffed"].length == 0) {
+		output += "<div class='statusContainer3 padded3 centerText buffDefault'>Normal</div>";
+	}
+	if (player.status["Reflecting"] == true) {
+		output += "<div class='statusContainer3 padded3 centerText reflectHighlight'>Reflecting</div>";
+	} else if (player.status["Reflecting"] == false) {
+		output += "<div class='statusContainer3 padded3 centerText reflectDefault'>Normal</div>";
+	}
+	output += "</div>";
+	output += "<div class='fullX flexRow'>";
+	if (player.status["Stunned"] > 1) {
+		output += "<div class='statusContainer3 padded3 centerText stunHighlight superEffect'>Stunned</div>";
+	} else if (player.status["Stunned"] == 1) {
+		output += "<div class='statusContainer3 padded3 centerText stunHighlight'>Stunned</div>";
+	} else if (player.status["Stunned"] == 0) {
+		output += "<div class='statusContainer3 padded3 centerText stunDefault'>Normal</div>";
+	}
+	if (player.status["Immune"] > 0) {
+		output += "<div class='statusContainer3 padded3 centerText immuneHighlight'>Immune: " + player.status['Immune'].toString() + "</div>";
+	} else if (player.status["Immune"] == 0) {
+		output += "<div class='statusContainer3 padded3 centerText immuneDefault'>Normal</div>";
+	}
+	if (player.status["Supercharged"] > 1) {
+		output += "<div class='statusContainer3 padded3 centerText superHighlight'>" + player.status['Supercharged'].toString() + "x</div>";
+	} else if (player.status["Supercharged"] == 1) {
+		output += "<div class='statusContainer3 padded3 centerText superDefault'>Normal</div>";
+	}
+	output += "</div>";
+	output += "<div class='fullX flexRow borderBottom padded3Spaced'>";
+	output += "<div class='left70'>";
+	output += "Damage: ";
+	output += player.damage.toString();
+	output += "</div>";
+	output += "<div class='right30'>";
+	output += "<button " + (active ? "" : "disabled") + " class='buttonSelect playerMove' data-user='Attack' id='buttonAttack'>Attack!</button>";
+	output += "</div>";
+	output += "</div>";
+	if (Object.keys(player.items).length > 0) {
+		for (const item in player.items) {
+			output += "<div class='fullX flexRow borderBottom padded3Spaced'>";
+			output += "<div class='left80'>";
+			output += "<div class='fullX'>";
+			output += item.toString() + ": " + player.items[item].quantity.toString();
+			output += "</div>";
+			output += "<div class='fullX'>";
+			output += player.items[item].description.toString();
+			output += "</div>";
+			output += "</div>";
+			output += "<div class='right20 centerRight'>";
+			output += "<button " + (((active) && (player.items[item].quantity > 0)) ? "" : "disabled") + " class='buttonSelect playerMove' data-user='" + item + "' id='button" + item.toString() + "'>Use</button>";
+			output += "</div>";
+			output += "</div>";
+		}
+	}
+	if (Object.keys(player.spells).length > 0) {
+		for (const spell in player.spells) {
+			output += "<div class='fullX flexRow borderBottom padded3Spaced'>";
+			output += "<div class='left80'>";
+			output += "<div class='fullX'>";
+			output += spell.toString() + ": " + "<span class='blueText'>" + ((spell == spell3) ? (player.currentMana.toString()) : ((spell == spell1) ? ((player.level + 2).toString()) : (player.spells[spell].cost.toString()))) + "</span>";
+			output += "</div>";
+			output += "<div class='fullX'>";
+			output += player.spells[spell].description.toString();
+			output += "</div>";
+			output += "</div>";
+			output += "<div class='right20 centerRight'>";
+			output += "<button " + ((spell == spell3) ? (((active) && (player.currentMana > 0)) ? "" : "disabled") : ((spell == spell1) ? (((active) && (player.currentMana >= (player.level + 2))) ? "" : "disabled") : (((active) && (player.currentMana >= player.spells[spell].cost)) ? "" : "disabled"))) + " class='buttonSelect playerMove' data-user='" + spell + "' id='button" + spell.toString() + "'>Use</button>";
+			output += "</div>";
+			output += "</div>";
+		}
+	}
+	if (combat == false) {
+		output += "<div class='fullX flexRow center borderBottom'><button class='buttonAchievement' onclick='achievementMenu()'>Achievements</button</div>";
+	}
+	output += "</div>";
+	document.getElementById('playerBox').innerHTML = output;
+}
+
+function renderLevelMenu() {
+	document.getElementById('enemyBox').innerHTML = "";
+	let output = "";
+	output += "<div class='border padded10V fullX fullY center'>";
+	output += "<div class='flexBattles fullX'>";
+	output += "<button class='buttonBattle' onclick='combat(generateEnemyList(player.level, -1), \"easy\")'>Easy</button>";
+	output += "<button class='buttonBattle' onclick='combat(generateEnemyList(player.level, 0), \"medium\")'>Medium</button>";
+	output += "<button class='buttonBattle' onclick='combat(generateEnemyList(player.level, 1), \"hard\")'>Hard</button>";
+	output += "</div>";
+	output += `<button ${((player.achievements["Medal of Courage"]) || (player.level < 4)) ? ("disabled") : ("")} class='buttonBoss' onclick='bossConfirm(boss1, "boss1", "[enemyLibrary[enemy13](player.level), bossLibrary[boss1](player.level), enemyLibrary[enemy13](player.level)]")'>${(player.level >= 4) ? ((player.achievements["Medal of Courage"]) ? ("Defeated") : ("Boss 1")) : ("Level 4")}</button>`;
+	output += "<span class='bossBreak'></span>";
+	output += `<button ${((player.achievements["Medal of Endurance"]) || (player.level < 8)) ? ("disabled") : ("")} class='buttonBoss' onclick='bossConfirm(boss2, "boss2", "[bossLibrary[boss2](player.level)]")'>${(player.level >= 8) ? ((player.achievements["Medal of Endurance"]) ? ("Defeated") : ("Boss 2")) : ("Level 8")}</button>`;
+	output += "<span class='bossBreak'></span>";
+	output += `<button ${((player.achievements["Medal of Strength"]) || (player.level < 12)) ? ("disabled") : ("")} class='buttonBoss' onclick='bossConfirm(boss3, "boss3", "[bossLibrary[boss3](player.level)]")'>${(player.level >= 12) ? ((player.achievements["Medal of Strength"]) ? ("Defeated") : ("Boss 3")) : ("Level 12")}</button>`;
+	output += "<span class='bossBreak'></span>";
+	output += `<button ${((player.achievements["Medal of Honor"]) || (player.level < 16)) ? ("disabled") : ("")} class='buttonBoss' onclick='bossConfirm(boss4, "boss4", "[enemyLibrary[enemy43](player.level), bossLibrary[boss4](player.level), enemyLibrary[enemy43](player.level)]")'>${(player.level >= 16) ? ((player.achievements["Medal of Honor"]) ? ("Defeated") : ("Boss 4")) : ("Level 16")}</button>`;
+	output += "<span class='bossBreak'></span>";
+	output += `<button ${((player.achievements["Medal of Peace"]) || (player.level < 20)) ? ("disabled") : ("")} class='buttonBoss' onclick='bossConfirm(boss5, "boss5", "[bossLibrary[boss5](player.level)]")'>${(player.level >= 20) ? ((player.achievements["Medal of Peace"]) ? ("Defeated") : ("Boss 5")) : ("Level 20")}</button>`;
+	output += "</div>";
+	document.getElementById('enemyBox').innerHTML = output;
+}
+
+function clearBoard() {
+	document.getElementById('board').innerHTML = "";
+}
+
+async function log(text, enemies) {
+	renderEnemies(enemies, false);
+	renderPlayer(true, false);
+	let logLine = document.createElement('p');
+	logLine.textContent = text;
+	const element = document.getElementById('board');
+const scrollPosition = element.scrollTop + element.offsetHeight;
+const isScrolledToBottom = scrollPosition >= element.scrollHeight;
+	element.appendChild(logLine);
+	if (isScrolledToBottom) {
+		element.scrollTop = element.scrollHeight;
+	}
+	await new Promise(resolve => setTimeout(resolve, 250));
+}
+
+function renderStartMenu() {
+	document.getElementById('board').innerHTML = "";
+	let output = "";
+	output += "<div class='fullX fullY border padded10 center'>";
+	output += "<h2>Enter Your Name:</h2>";
+	output += "<input class='input' type='text' pattern='[a-zA-Z0-9\\s]+' oninput='this.value=this.value.replace(/[^a-zA-Z0-9\\s]/g,\"\");' id='playerName'></input>";
+	output += "<p style='height: 26px;' id='nameError'></p>";
+	output += "<button class='buttonStart' onclick='start()'>Start</button>";
+	output += "</div>";
+	document.getElementById('board').innerHTML = output;
+}
+
+function renderSaveMenu() {
+	load();
+	document.getElementById('board').innerHTML = "";
+	let output = "";
+	output += "<div class='fullX fullY flexRow spaceBetween'>";
+	for (var i = 1; i <= players.length; i++) {
+		if (players[(i-1)] === null) {
+			output += "<div class='border padded3 center fullY profile'>";
+			output += "<button class='buttonStart' onclick='player = player" + i.toString() + "; slot = " + i.toString() + "; renderStartMenu()'>New Game</button>";
+		} else {
+			let achievementCount = 0;
+			for (const achievement in achievementLibrary) {
+				if (players[(i-1)].achievements[achievement]) {
+					achievementCount += 1;
+				}
+			}
+			if (achievementCount == Object.keys(achievementLibrary).length) {
+				output += "<div class='border padded3 center fullY profile gold'>";
+			} else {
+				output += "<div class='border padded3 center fullY profile'>";
+			}
+			output += "<div class='fullX'>" + players[(i-1)].name.toString() + "</div>";
+			output += "<div class='fullX flexRow spaceEvenly'>";
+			output += "<button class='buttonProfile' onclick='player = player" + i.toString() + "; slot = " + i.toString() + "; renderMenu()'>Start</button>";
+			output += "<button class='buttonProfile' onclick='renderRenameMenu(" + (i-1).toString() + ")'>Edit</button>";
+			output += "<button class='buttonProfile' onclick='requestErase(\"player" + i.toString() + "\", \"" + players[(i-1)].name.toString() + "\")'>Delete</button>";
+			output += "</div>";
+			output += "<div class='fullX flexRow'><div class='left50'>Lvl: " + players[(i-1)].level.toString() + "</div><div class='right50'>Dmg: " + players[(i-1)].damage.toString() + "</div></div>";
+			output += "<div class='fullX greenText'>" + players[(i-1)].exp.toString() + "/" + (players[(i-1)].level*100).toString() + " EXP</div>";
+			output += "<div class='fullX flexRow'><div class='left50 redText'>" + players[(i-1)].health.toString() + " HP</div><div class='right50 blueText'>" + players[(i-1)].mana.toString() + " Mana</div></div>";
+			output += "<div class='fullX'>Items:<br/><table class='summaryTable'><tr>";
+			for (item in itemLibrary) {
+				if (players[(i-1)].items[item]) {
+					output += "<td class='summaryTableData brown'>" + players[(i-1)].items[item].quantity.toString() + "</td>";
+				} else {
+					output += "<td class='summaryTableData white'></td>";
+				}
+			}
+			output += "</tr></table></div>";
+			output += "<div class='fullX'>Spells:<br/><table class='summaryTable'><tr>";
+			for (spell in spellLibrary) {
+				if (players[(i-1)].spells[spell]) {
+					output += "<td class='summaryTableData blue'></td>";
+				} else {
+					output += "<td class='summaryTableData white'></td>";
+				}
+			}
+			output += "</tr></table></div>";
+			output += "<div class='fullX'>Bosses:<br/><table class='summaryTable'><tr>";
+			for (medal of ["Medal of Courage", "Medal of Endurance", "Medal of Strength", "Medal of Honor", "Medal of Peace"]) {
+				if (players[(i-1)].achievements[medal]) {
+					output += "<td class='summaryTableData purple'></td>";
+				} else {
+					output += "<td class='summaryTableData white'></td>";
+				}
+			}
+			output += "</tr></table></div>";
+			output += "<div class='fullX'>Achievements: " + achievementCount.toString() + "/" + Object.keys(achievementLibrary).length.toString() + "</div>";
+		}
+		output += "</div>";
+	}
+	output += "</div>";
+	document.getElementById('board').innerHTML = output;
+}
+
+function bossConfirm(bossName, battleType, enemyLayout) {
+	let output = "";
+	output += "<div id='bossConfirm' class='overlay zindex4 textWrap center'>";
+	output += "<div class='deleteMessage center'>";
+	output += "<h2>Are you sure you want to fight <span class='italic'>" + bossName.toString() + "</span>?</h2>";
+	output += "<div class='flexRow fullX spaceEvenly'>";
+	output += `<button class='buttonStart' onclick='closeOverlay("bossConfirm"); combat(${enemyLayout}, "${battleType}")'>Yes</button>`;
+	output += "<button class='buttonStart' onclick='closeOverlay(\"bossConfirm\");'>No</button>";
+	output += "</div>";
+	output += "</div>";
+	output += "</div>";
+	document.body.innerHTML += output;
+}
+
+function achievementMenu() {
+	let output = "";
+	output += "<div id='achievementMenu' class='overlay zindex4 textWrap center'>";
+	output += "<div class='achievementMenu relative'>";
+	output += "<button class='absolute buttonClose center' onclick='closeOverlay(\"achievementMenu\")'>X</button>";
+	output += "<div class='fullX centerText achievementTitle'>Achievements</div>";
+	let achievementCount = 0;
+	for (const achievement in achievementLibrary) {
+		if (player.achievements[achievement]) {
+			achievementCount += 1;
+		}
+	}
+	output += "<div class='absolute achievementCount center'>" + achievementCount.toString() + "/" + Object.keys(achievementLibrary).length.toString() + "</div>";
+	for (achievement in achievementLibrary) {
+		if (player.achievements[achievement]) {
+			output += "<div class='fullX padded10'><div class='achievementLabel earned padded3'>" + achievement.toString() + "</div><div class='achievementDescription earned padded3'>" + achievementLibrary[achievement].description.toString() + "</div></div>";
+		} else {
+			output += "<div class='fullX padded10'><div class='achievementLabel unearned padded3'>" + achievement.toString() + "</div><div class='achievementDescription unearned padded3'>" + achievementLibrary[achievement].hint.toString() + "</div></div>";
+		}
+	}
+	output += "</div>";
+	output += "</div>";
+	document.body.innerHTML += output;
+}
+
+function closeOverlay(id) {
+	let element = document.getElementById(id);
+	element.parentNode.removeChild(element);
+}
+
+function save(slot) {
+	localStorage.setItem('player' + slot.toString(), JSON.stringify(player));
+}
+
+function load() {
+	player1 = updateProfile(JSON.parse(localStorage.getItem('player1')));
+	player2 = updateProfile(JSON.parse(localStorage.getItem('player2')));
+	player3 = updateProfile(JSON.parse(localStorage.getItem('player3')));
+	players = [player1, player2, player3];
+}
+
+function updateProfile(player) {
+	if (player) {
+		let name = undefined;
+		let level = undefined;
+		let exp = undefined;
+		let health = undefined;
+		let damage = undefined;
+		let mana = undefined;
+		let defaultItems = undefined;
+		let defaultSpells = undefined;
+		let defaultAchievements = undefined;
+		let unlockedEnemies = undefined;
+		if (player.name) {
+			name = player.name;
+		}
+		if (player.level) {
+			level = player.level;
+		}
+		if (player.exp) {
+			exp = player.exp;
+		}
+		if (player.health) {
+			health = player.health;
+		}
+		if (player.damage) {
+			damage = player.damage;
+		}
+		if (player.mana) {
+			mana = player.mana;
+		}
+		if (player.items) {
+			defaultItems = {};
+			for (item in player.items) {
+				defaultItems[item] = player.items[item].quantity;
+			}
+		}
+		if (player.spells) {
+			defaultSpells = [];
+			for (spell in player.spells) {
+				defaultSpells.push(spell);
+			}
+		}
+		if (player.achievements) {
+			defaultAchievements = [];
+			for (achievement in player.achievements) {
+				defaultAchievements.push(achievement);
+			}
+		}
+		if (player.unlockedEnemies) {
+			unlockedEnemies = [];
+			for (let i = 0; i < player.unlockedEnemies.length; i++) {
+				unlockedEnemies.push(enemyNames[i]);
+			}
+		}
+		player = new Character(name, level, exp, health, damage, mana, defaultItems, defaultSpells, defaultAchievements, unlockedEnemies);
+	}
+	return player;
+}
+
+function renderRenameMenu(number) {
+	document.getElementById('board').innerHTML = "";
+	let output = "";
+	output += "<div class='fullX fullY border padded10 center'>";
+	output += "<h2>Enter Your Name:</h2>";
+	output += "<input class='input' type='text' pattern='[a-zA-Z0-9\\s]+' oninput='this.value=this.value.replace(/[^a-zA-Z0-9\\s]/g,\"\");' id='playerRename' value='" + players[parseInt(number)].name.toString() + "'></input>";
+	output += "<p style='height: 26px;' id='renameError'></p>";
+	output += "<button class='buttonStart' onclick='rename(" + number + ")'>Save</button>";
+	output += "</div>";
+	document.getElementById('board').innerHTML = output;
+}
+
+function rename(number) {
+	let newName = document.getElementById('playerRename').value;
+	if (newName.length >= 1 && newName.length <= 20) {
+		players[parseInt(number)].name = newName;
+		localStorage.setItem('player' + (parseInt(number) + 1).toString(), JSON.stringify(players[parseInt(number)]));
+		renderSaveMenu();
+	} else {
+		document.getElementById('renameError').innerHTML = "Please enter a name between 1-20 characters";
+	}
+}
+
+function requestErase(player, name) {
+	let output = "";
+	output += "<div id='deleteMessage' class='overlay zindex4 textWrap center'>";
+	output += "<div class='deleteMessage center'>";
+	output += "<div class='fullX'><h2>Are you sure you want to delete <span class='italic'>" + name.toString() + "</span>?</h2></div>";
+	output += "<div class='flexRow fullX spaceEvenly'>";
+	output += "<button class='buttonStart' onclick='closeOverlay(\"deleteMessage\"); erase(\"" + player.toString() + "\")'>Yes</button>";
+	output += "<button class='buttonStart' onclick='closeOverlay(\"deleteMessage\");'>No</button>";
+	output += "</div>";
+	output += "</div>";
+	output += "</div>";
+	document.body.innerHTML += output;
+}
+
+function erase(player) {
+	localStorage.removeItem(player);
+	renderSaveMenu();
+}
+
+function renderMenu() {
+	save(slot);
+	renderPlayer(false, false);
+	renderLevelMenu();
+	clearBoard();
+}
+
+function generateEnemyList(base, modifier) {
+	let difficulty = base + modifier*Math.min(Math.ceil(player.level/4), 5);
+	let remaining = Math.max(difficulty, 1);
+	let enemyList = [];
+	while (remaining > 0) {
+		let randomEnemy;
+		let enemyLevel = Infinity;
+		while (enemyLevel > remaining) {
+			randomEnemy = enemyLibrary[player.unlockedEnemies[Math.floor(Math.random() * player.unlockedEnemies.length)]](player.level);
+			enemyLevel = randomEnemy.level;
+		}
+		generateItems(randomEnemy, modifier);
+		enemyList.push(randomEnemy);
+		remaining -= randomEnemy.level;
+	}
+	enemyList = shuffle(enemyList);
+	return enemyList;
+}
+
+function shuffle(array) {
+	for (let i = array.length - 1; i > 0; i--) {
+		const j = Math.floor(Math.random() * (i + 1));
+		[array[i], array[j]] = [array[j], array[i]];
+	}
+	return array;
+}
+
+function renderEnemies(enemies, active) {
+	let highlightedIndex;
+	try {
+		for (let k = 0; k < (document.getElementById('activeEnemy').children.length); k++) {
+			if (document.getElementById('activeEnemy').children[k].classList.contains('currentTurn')) {
+				highlightedIndex = k;
+			}
+		}
+	} catch (error) {
+		highlightedIndex = -2;
+	}
+	let output = "";
+	output += "<div id='activeEnemy' class='flexVerticle'>";
+	for (let i = 0; i < enemies.length; i++) {
+		if (i == 0) {
+			output += "<div class='bottomlessBorder fullX flexColumn" + ((highlightedIndex == i) ? ' currentTurn' : '') + "'>";
+		} else {
+			output += "<div class='bottomlessBorder fullX flexColumn marginTop10" + ((highlightedIndex == i) ? ' currentTurn' : '') + "'>";
+		}
+		output += "<div class='fullX flexRow borderBottom padded3'>";
+		output += "<div class='left70'>";
+		output += enemies[i].name.toString();
+		output += "</div>";
+		output += "<div class='right30'>";
+		output += "Level ";
+		output += enemies[i].level.toString();
+		output += "</div>";
+		output += "</div>";
+		output += "<div class='fullX flexRow borderBottom'>";
+		output += "<div class='relative height37 width100'>";
+		let percentageHealth = Math.min((100*(enemies[i].currentHealth/enemies[i].health)), 100);
+		output += "<div class='barRed' style='width: " + percentageHealth.toString() + "%;'>";
+		output += "</div>";
+		output += "<div class='barGreenText'>";
+		output += enemies[i].currentHealth.toString() + "/" + enemies[i].health.toString();
+		output += "</div>";
+		output += "</div>";
+		output += "</div>";
+		output += "<div class='fullX flexRow padded3 center'>Status Effects:</div>";
+		output += "<div class='fullX flexRow'>";
+		if (enemies[i].status["Reflecting"] == true) {
+			output += "<div class='statusContainer3 padded3 centerText reflectHighlight'>Reflecting</div>";
+		} else if (enemies[i].status["Reflecting"] == false) {
+			output += "<div class='statusContainer3 padded3 centerText reflectDefault'>Normal</div>";
+		}
+		if (enemies[i].status["Buffed"].length > 0) {
+			output += "<div class='statusContainer3 padded3 centerText buffHighlight'>";
+			let enemyBuffLevel = "";
+			for (let j = 0; j < enemies[i].status["Buffed"].length; j++) {
+				enemyBuffLevel += "x2 ";
+			}
+			output += enemyBuffLevel.trim()
+			output += "</div>";
+		} else if (enemies[i].status["Buffed"].length == 0) {
+			output += "<div class='statusContainer3 padded3 centerText buffDefault'>Normal</div>";
+		}
+		if (enemies[i].status["Burned"] > 1) {
+			output += "<div class='statusContainer3 padded3 centerText burnHighlight superEffect'>Burned</div>";
+		} else if (enemies[i].status["Burned"] == 1) {
+			output += "<div class='statusContainer3 padded3 centerText burnHighlight'>Burned</div>";
+		} else if (enemies[i].status["Burned"] == 0) {
+			output += "<div class='statusContainer3 padded3 centerText burnDefault'>Normal</div>";
+		}
+		output += "</div>";
+		output += "<div class='fullX flexRow'>";
+		if (enemies[i].status["Immune"] > 0) {
+			output += "<div class='statusContainer2 padded3 centerText immuneHighlight'>Immune: " + enemies[i].status['Immune'].toString() + "</div>";
+		} else if (enemies[i].status["Immune"] == 0) {
+			output += "<div class='statusContainer2 padded3 centerText immuneDefault'>Normal</div>";
+		}
+		if (enemies[i].status["Stunned"] > 1) {
+			output += "<div class='statusContainer2 padded3 centerText stunHighlight superEffect'>Stunned</div>";
+		} else if (enemies[i].status["Stunned"] == 1) {
+			output += "<div class='statusContainer2 padded3 centerText stunHighlight'>Stunned</div>";
+		} else if (enemies[i].status["Stunned"] == 0) {
+			output += "<div class='statusContainer2 padded3 centerText stunDefault'>Normal</div>";
+		}
+		output += "</div>";
+		output += "<div class='fullX flexRow borderBottom padded3'>";
+		output += "<div class='left30'>";
+		output += "<button " + (active ? "" : "disabled") + " class='buttonSelect enemySelect' data-user='" + i + "'>X</button>";
+		output += "</div>";
+		output += "<div class='right70'>";
+		output += "Damage: ";
+		output += enemies[i].damage.toString();
+		output += "</div>";
+		output += "</div>";
+		if (enemies[i].name == boss4) {
+			output += "<div class='fullX borderBottom padded3 rightText'>";
+			output += permaReflect;
+			output += "</div>";
+		}
+		if (Object.keys(enemies[i].items).length > 0) {
+			for (const item in enemies[i].items) {
+				output += "<div class='fullX borderBottom padded3 rightText'>";
+				output += item.toString() + ": " + enemies[i].items[item].quantity.toString();
+				output += "</div>";
+			}
+		}
+		if (enemies[i].name == enemy13) {
+			output += "<div class='fullX borderBottom padded3 rightText'>";
+			output += doctorMove;
+			output += "</div>";
+		}
+		if (enemies[i].name == boss1) {
+			output += "<div class='fullX borderBottom padded3 rightText'>";
+			output += boss1Move1;
+			output += "</div>";
+			output += "<div class='fullX borderBottom padded3 rightText'>";
+			output += boss1Move2;
+			output += "</div>";
+		}
+		if (enemies[i].name == enemy22) {
+			output += "<div class='fullX borderBottom padded3 rightText'>";
+			output += rockMove;
+			output += "</div>";
+		}
+		if (enemies[i].name == enemy23) {
+			output += "<div class='fullX borderBottom padded3 rightText'>";
+			output += makerMove;
+			output += "</div>";
+		}
+		if (enemies[i].name == boss2) {
+			output += "<div class='fullX borderBottom padded3 rightText'>";
+			output += boss2Move1;
+			output += "</div>";
+		}
+		if (enemies[i].name == enemy33) {
+			output += "<div class='fullX borderBottom padded3 rightText'>";
+			output += pyroMove1;
+			output += "</div>";
+			output += "<div class='fullX borderBottom padded3 rightText'>";
+			output += pyroMove2;
+			output += "</div>";
+		}
+		if (enemies[i].name == boss3) {
+			output += "<div class='fullX borderBottom padded3 rightText'>";
+			output += boss3Move1;
+			output += "</div>";
+		}
+		if (enemies[i].name == enemy41) {
+			output += "<div class='fullX borderBottom padded3 rightText'>";
+			output += sporeMove;
+			output += "</div>";
+		}
+		if (enemies[i].name == enemy42) {
+			output += "<div class='fullX borderBottom padded3 rightText'>";
+			output += firestormMove;
+			output += "</div>";
+		}
+		if (enemies[i].name == enemy43) {
+			output += "<div class='fullX borderBottom padded3 rightText'>";
+			output += supportMove1;
+			output += "</div>";
+			output += "<div class='fullX borderBottom padded3 rightText'>";
+			output += supportMove2;
+			output += "</div>";
+			output += "<div class='fullX borderBottom padded3 rightText'>";
+			output += supportMove3;
+			output += "</div>";
+		}
+		if (enemies[i].name == boss4) {
+			output += "<div class='fullX borderBottom padded3 rightText'>";
+			output += boss4Move1;
+			output += "</div>";
+			output += "<div class='fullX borderBottom padded3 rightText'>";
+			output += boss4Move2;
+			output += "</div>";
+			output += "<div class='fullX borderBottom padded3 rightText'>";
+			output += boss4Move3;
+			output += "</div>";
+		}
+		if (enemies[i].name == enemy52) {
+			output += "<div class='fullX borderBottom padded3 rightText'>";
+			output += evolveMove;
+			output += "</div>";
+		}
+		output += "</div>";
+	}
+	output += "</div>";
+	document.getElementById('enemyBox').innerHTML = output;
+}
+
+async function combat(enemies, levelType) {
+	clearBoard();
+	boss3Move1Count = 1;
+	coreLoop: while (true) {
+		document.getElementById('activePlayer').classList.add('currentTurn');
+		await playerUpkeep(enemies);
+		await update(enemies);
+		if (endGame(enemies)) {
+			break coreLoop;
+		}
+		if (player.status["Stunned"] == 0) {
+		let moveCompleted = false;
+			while (moveCompleted == false) {
+				renderPlayer(true, true);
+				renderEnemies(enemies, false);
+				let action = await getInput(".playerMove");
+				let target;
+				if ([baseMove, spell1, spell3].includes(action)) {
+					renderPlayer(true, false);
+					document.getElementById('button' + action).textContent = "Undo";
+					document.getElementById('button' + action).disabled = false;
+					document.getElementById('button' + action).classList.add('enemySelect');
+					renderEnemies(enemies, true);
+					let enemyIndex = await getInput(".enemySelect");
+					if (/^-?\d+$/.test(enemyIndex) == false) {
+						continue;
+					} else {
+						target = enemies[enemyIndex];
+					}
+				} else if ([item1, item2, item3, item4, item5, spell5].includes(action)) {
+					target = player;
+				} else {
+					target = enemies;
+				}
+				await performAction(player, action, target, enemies, levelType);
+				moveCompleted = true;
+			}
+		} else {
+			await log(`${player.name} was stunned and couldn't move.`, enemies);
+		}
+		await update(enemies);
+		if (endGame(enemies)) {
+			break coreLoop;
+		}
+		document.getElementById('activePlayer').classList.remove('currentTurn');
+		let cap = enemies.length;
+		for (let i = 0; i < cap; i++) {
+			document.getElementById('activeEnemy').children[i].classList.add('currentTurn');
+			let current = enemies[i];
+			await enemyUpkeep(enemies[i], enemies);
+			let returned = await update(enemies, i);
+			let removed = returned[0];
+			i = returned[1];
+			cap -= removed;
+			if (endGame(enemies)) {
+				break coreLoop;
+			}
+			if ((i >= 0) && (enemies[i] === current)) {
+				if (enemies[i].status["Stunned"] == 0) {
+					let enemyAction = pickMove(enemies[i], enemies);
+					let enemyTarget;
+					if ([item1, item3, item4, item5, rockMove, boss3Move1, evolveMove].includes(enemyAction)) {
+						enemyTarget = enemies[i];
+					} else if ([doctorMove, boss1Move1, boss1Move2, makerMove, boss2Move1, supportMove1, supportMove2, supportMove3].includes(enemyAction)) {
+						enemyTarget = enemies;
+					} else {
+						enemyTarget = player;
+					}
+					let added = await performAction(enemies[i], enemyAction, enemyTarget, enemies, levelType) ?? 0;
+					cap += added;
+				} else {
+					await log(`${enemies[i].name} was stunned and couldn't move.`, enemies);
+				}
+				let returned = await update(enemies, i);
+				let removed = returned[0];
+				i = returned[1];
+				cap -= removed;
+				if (endGame(enemies)) {
+					break coreLoop;
+				}
+				if ((i >= 0) && (document.getElementById('activeEnemy').children[i].classList.contains('currentTurn'))) {
+					document.getElementById('activeEnemy').children[i].classList.remove('currentTurn');
+				}
+			}
+		}
+	}
+	document.getElementById('activePlayer').classList.remove('currentTurn');
+	for (let i = 0; i < enemies.length; i++) {
+		document.getElementById('activeEnemy').children[i].classList.remove('currentTurn');
+	}
+	update(enemies);
+	renderEnemies(enemies, false);
+	renderPlayer(true, false);
+	if (player.currentHealth <= 0) {
+		await log(`${player.name} fainted!`, enemies);
+		await new Promise(resolve => setTimeout(resolve, 1000));
+		loseGame();
+	} else if (enemies.length == 0) {
+		let bonusExp = 0;
+		if (levelType == "easy") {
+			bonusExp = player.level*1;
+		} else if (levelType == "medium") {
+			bonusExp = player.level*3;
+		} else if (levelType == "hard") {
+			bonusExp = player.level*5;
+		} else if (["boss1", "boss2", "boss3", "boss4", "boss5"].includes(levelType)) {
+			bonusExp = player.level*10;
+		}
+		if (player.level < 100) {
+			player.exp += bonusExp;
+		} else {
+			player.exp = Math.min((player.exp + bonusExp), 10000);
+		}
+		await log(`${player.name} gained ${bonusExp} bonus EXP.`, enemies);
+		while ((player.exp >= player.level*100) && (player.level < 100)) {
+			await levelUp(enemies);
+		}
+		await new Promise(resolve => setTimeout(resolve, 1000));
+		if (levelType == "boss1") {
+			earnAchievement("Medal of Courage");
+		}
+		if (levelType == "boss2") {
+			earnAchievement("Medal of Endurance");
+		}
+		if (levelType == "boss3") {
+			earnAchievement("Medal of Strength");
+		}
+		if (levelType == "boss4") {
+			earnAchievement("Medal of Honor");
+		}
+		if (levelType == "boss5") {
+			earnAchievement("Medal of Peace");
+		}
+		player.currentHealth = player.health;
+		player.currentMana = player.mana;
+		player.status["Burned"] = 0;
+		player.status["Buffed"] = [];
+		player.status["Reflecting"] = false;
+		player.status["Stunned"] = 0;
+		player.status["Immune"] = 0;
+		player.status["Supercharged"] = 1;
+		save(slot);
+		winGame();
+	}
+}
+
+function getInput(type) {
+	return new Promise((resolve) => {
+		document.addEventListener('click', (event) => {
+			if (event.target.matches(type)) {
+				const input = event.target.dataset.user;
+				resolve(input);
+			}
+		});
+	});
+}
+
+function endGame(enemies) {
+	if (player.currentHealth <= 0 || enemies.length == 0) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+async function update(enemies, i = 0) {
+	let removed = 0;
+	for (let o = 0; o < enemies.length; o++) {
+		if (enemies[o].currentHealth == 0) {
+			killSubordinates(enemies[o]);
+		}
+	}
+	let jCap = enemies.length;
+	for (let j = 0; j < jCap; j++) {
+		if (enemies[j].currentHealth <= 0) {
+			document.getElementById('activeEnemy').children[j].classList.remove('currentTurn');
+			if ((enemies[j].name == enemy53) && (enemies[j].level > 1)) {
+				let originalName = enemies[j].name;
+				let baby1 = enemyLibrary[enemy53](player.level);
+				let baby2 = enemyLibrary[enemy53](player.level);
+				baby1.level = enemies[j].level - 1;
+				baby2.level = enemies[j].level - 1;
+				baby1.health = Math.round(enemies[j].health/2);
+				baby1.currentHealth = baby1.health;
+				baby2.health = Math.round(enemies[j].health/2);
+				baby2.currentHealth = baby2.health;
+				baby1.damage = Math.floor(enemies[j].damage/2);
+				baby2.damage = Math.floor(enemies[j].damage/2);
+				let flipflop = (Math.random() < 0.5);
+				baby1.items = {};
+				baby2.items = {};
+				for (item in enemies[j].items) {
+					baby1.items[item] = {...itemLibrary[item]};
+					baby2.items[item] = {...itemLibrary[item]};
+					while (enemies[j].items[item].quantity > 0) {
+						if (flipflop == false) {
+							baby1.items[item].quantity += 1;
+						} else if (flipflop == true) {
+							baby2.items[item].quantity += 1;
+						}
+						flipflop = !flipflop;
+						enemies[j].items[item].quantity -= 1;
+					}
+				}
+				baby1.status["Burned"] = enemies[j].status["Burned"];
+				baby2.status["Burned"] = enemies[j].status["Burned"];
+				baby1.status["Buffed"] = [...enemies[j].status["Buffed"]];
+				baby2.status["Buffed"] = [...enemies[j].status["Buffed"]];
+				baby1.status["Reflecting"] = enemies[j].status["Reflecting"];
+				baby2.status["Reflecting"] = enemies[j].status["Reflecting"];
+				baby1.status["Stunned"] = enemies[j].status["Stunned"];
+				baby2.status["Stunned"] = enemies[j].status["Stunned"];
+				baby1.status["Immune"] = enemies[j].status["Immune"];
+				baby2.status["Immune"] = enemies[j].status["Immune"];
+				enemies.splice(j, 1, baby1, baby2);
+				removed -= 1;
+				if (j <= i) {
+					i += 1;
+				}
+				jCap += 1;
+				j += 1;
+				await log(`${originalName} split!`, enemies);
+			} else {
+				let deleted = enemies[j].name;
+				let expGained = Math.max((enemies[j].level * 5) + (Math.floor(Math.random() * 9) - 4), 1);
+				let itemsDropped = [];
+				for (item in enemies[j].items) {
+					if ((player.items[item]) && (Math.random() < ((player.items[item].quantity > 0) ? (1 / (1 + (Math.pow(player.items[item].quantity, 0.5)))) : (0.5)))) {
+						itemsDropped.push(item);
+					}
+				}
+				if ((player.items[item2]) && (deleted != enemy21) && (Math.random() < ((player.items[item2].quantity > 1) ? (1 / (1 + (Math.pow(player.items[item2].quantity, 0.6)))) : (0.4)))) {
+					if (itemsDropped.includes(item1)) {
+						itemsDropped.splice(1, 0, item2);
+					} else {
+						itemsDropped.splice(0, 0, item2);
+					}
+				}
+				if (player.level < 100) {
+					player.exp += expGained;
+				} else {
+					player.exp = Math.min((player.exp + expGained), 10000);
+				}
+				enemies.splice(j, 1);
+				if (j <= i) {
+					i -= 1;
+				}
+				jCap -= 1;
+				j -= 1;
+				removed += 1;
+				await log(`${deleted} fainted.`, enemies);
+				for (let m = itemsDropped.length - 1; m >= 0; m--) {
+					if (player.items[itemsDropped[m]]) {
+						player.items[itemsDropped[m]].quantity = Math.min((player.items[itemsDropped[m]].quantity + 1), 99);
+					} else {
+						itemsDropped.splice(m, 1);
+					}
+				}
+				if (itemsDropped.length == 0) {
+					await log(`${player.name} gained ${expGained} EXP.`, enemies);
+				} else if (itemsDropped.length == 1) {
+					await log(`${player.name} obtained a ${itemsDropped[0]} and gained ${expGained} EXP.`, enemies);
+				} else {
+					let string = "";
+					for (item of itemsDropped) {
+						string += "a " + item.toString() + ", ";
+					}
+					await log(`${player.name} obtained ${string}and gained ${expGained} EXP.`, enemies);
+				}
+				while ((player.exp >= player.level*100) && (player.level < 100)) {
+					await levelUp(enemies);
+				}
+			}
+		}
+	}
+	return [removed, i];
+}
+
+async function playerUpkeep(enemies) {
+	if (player.status["Buffed"].length > 0) {
+		for (let j = player.status["Buffed"].length - 1; j >= 0; j--) {
+			player.status["Buffed"][j] -= 1;
+		}
+		for (let j = player.status["Buffed"].length - 1; j >= 0; j--) {
+			if (player.status["Buffed"][j] == 0) {
+				player.status["Buffed"].splice(j, 1);
+			}
+		}
+	}
+	if (player.status["Reflecting"] == true) {
+		player.status["Reflecting"] = false;
+	}
+	if (player.status["Immune"] > 0) {
+		player.status["Immune"] -= 1
+	}
+	if (player.status["Burned"] > 0) {
+		if (Math.random() <= (1 / (2 + (Math.pow(player.status["Burned"], 1/5))))) {
+			player.status["Burned"] = 0;
+			await log(`${player.name} recovered from being burned.`, enemies);
+		} else {
+			player.currentHealth = Math.max((player.currentHealth - 5), 0);
+			await log(`${player.name} took 5 damage from being burned.`, enemies);
+		}
+	}
+	if (player.status["Stunned"] > 0) {
+		if (Math.random() <= (1 / (1 + (Math.pow(player.status["Stunned"], 1/5))))) {
+			player.status["Stunned"] = 0;
+			await log(`${player.name} recovered from being stunned.`, enemies);
+		}
+	}
+}
+
+async function enemyUpkeep(enemy, enemies) {
+	if (enemy.status["Buffed"].length > 0) {
+		for (let j = enemy.status["Buffed"].length - 1; j >= 0; j--) {
+			enemy.status["Buffed"][j] -= 1;
+		}
+		for (let j = enemy.status["Buffed"].length - 1; j >= 0; j--) {
+			if (enemy.status["Buffed"][j] == 0) {
+				enemy.status["Buffed"].splice(j, 1);
+			}
+		}
+	}
+	if ((enemy.status["Reflecting"] == true) && !([boss4].includes(enemy.name))) {
+		enemy.status["Reflecting"] = false;
+	}
+	if (enemy.status["Immune"] > 0) {
+		enemy.status["Immune"] -= 1;
+	}
+	if (enemy.status["Burned"] > 0) {
+		if (Math.random() <= (1 / (2 + (Math.pow(enemy.status["Burned"], 1/5))))) {
+			enemy.status["Burned"] = 0;
+			await log(`${enemy.name} recovered from being burned.`, enemies);
+		} else {
+			enemy.currentHealth = Math.max((enemy.currentHealth - 5), 0);
+			await log(`${enemy.name} took 5 damage from being burned.`, enemies);
+		}
+	}
+	if (enemy.status["Stunned"] > 0) {
+		if ((Math.random() <= (1 / (1 + (Math.pow(enemy.status["Stunned"], 1/5))))) || ((enemy.name == boss4) && (enemy.currentHealth <= (enemy.health/4)))) {
+			enemy.status["Stunned"] = 0;
+			await log(`${enemy.name} recovered from being stunned.`, enemies);
+		}
+	}
+}
+
+function pickMove(enemy, enemies) {
+	if (enemy.name == enemy13) {
+		if ((enemy.items[item1]) && (enemy.items[item1].quantity > 0) && (Math.random() < (1-(enemy.currentHealth/enemy.health)))) {
+			return item1;
+		} else {
+			let flagSupport = false;
+			for (let a = 0; a < enemies.length; a++) {
+				if ((enemies[a].currentHealth < enemies[a].health) && !(enemies[a] === enemy)) {
+					flagSupport = true;
+				}
+			}
+			if (flagSupport == true) {
+				return doctorMove;
+			}
+		}
+	} else if (enemy.name == boss1) {
+		if (enemies.length > 1) {
+			let hurtEnemies = [];
+			for (let p = 0; p < enemies.length; p++) {
+				if (enemies[p].currentHealth < enemies[p].health) {
+					hurtEnemies.push(enemies[p]);
+				}
+			}
+			if (hurtEnemies.length == 0) {
+				return boss1Move1;
+			} else {
+				if (Math.random() < 0.5) {
+					return boss1Move1;
+				} else {
+					return boss1Move2;
+				}
+			}
+		} else {
+			if ((enemy.items[item1]) && (enemy.items[item1].quantity > 0) && (enemy.currentHealth < (Math.ceil(enemy.health/2))) && (Math.random() < (1-(enemy.currentHealth/enemy.health)))) {
+				return item1;
+			}
+		}
+		if (enemies.length > 1) {
+			return boss1Move1;
+		}
+	} else if (enemy.name == enemy22) {
+		if ((enemy.items[item1]) && (enemy.items[item1].quantity > 0) && (Math.random() < (1-(enemy.currentHealth/enemy.health)))) {
+			return item1;
+		} else if ((enemy.items[item5]) && (enemy.items[item5].quantity > 0) && (Math.random() < (Math.max((enemy.status["Immunity"] > 0) ? 0.1 : 0.5), (((enemy.status["Burned"] > 0) || (enemy.status["Stunned"] > 0)) ? 0.9 : 0)))) {
+			return item5;
+		} else if ((enemy.items[item4]) && (enemy.items[item4].quantity > 0)) {
+			return item4;
+		} else {
+			return rockMove;
+		}
+	} else if (enemy.name == enemy23) {
+		if ((enemy.items[item1]) && (enemy.items[item1].quantity > 0) && (Math.random() < (1-(enemy.currentHealth/enemy.health)))) {
+			return item1;
+		} else if ((enemy.items[item5]) && (enemy.items[item5].quantity > 0) && (Math.random() < (Math.max((enemy.status["Immunity"] > 0) ? 0.1 : 0.5), (((enemy.status["Burned"] > 0) || (enemy.status["Stunned"] > 0)) ? 0.9 : 0)))) {
+			return item5;
+		}
+		let minions = [];
+		for (let p = 0; p < enemies.length; p++) {
+			if (enemies[p].name == enemy21) {
+				minions.push(enemies[p]);
+			}
+		}
+		if ((Math.floor(Math.random()*100)) < (100 - minions.length)) {
+			return makerMove;
+		}
+	} else if (enemy.name == boss2) {
+		if ((enemy.items[item1]) && (enemy.items[item1].quantity > 0) && (Math.random() < (1-(enemy.currentHealth/enemy.health)))) {
+			return item1;
+		} else if ((enemy.items[item5]) && (enemy.items[item5].quantity > 0) && (Math.random() < (Math.max((enemy.status["Immunity"] > 0) ? 0.1 : 0.5), (((enemy.status["Burned"] > 0) || (enemy.status["Stunned"] > 0)) ? 0.9 : 0)))) {
+			return item5;
+		}
+		let makers = [];
+		for (let p = 0; p < enemies.length; p++) {
+			if (enemies[p].name == enemy23) {
+				makers.push(enemies[p]);
+			}
+		}
+		if ((Math.floor(Math.random()*10)) < (10 - makers.length)) {
+			return boss2Move1;
+		}
+	} else if (enemy.name == enemy33) {
+		if ((enemy.items[item1]) && (enemy.items[item1].quantity > 0) && (Math.random() < (1-(enemy.currentHealth/enemy.health)))) {
+			return item1;
+		} else if (Math.random() < 0.5 && player.status["Immune"] == 0) {
+			return pyroMove2;
+		} else if ((player.status["Burned"] == 0) && (player.status["Immune"] == 0)) {
+			return pyroMove1;
+		}
+	} else if (enemy.name == boss3) {
+		if ((enemy.items[item1]) && (enemy.items[item1].quantity > 0) && (Math.random() < (1-(enemy.currentHealth/enemy.health)))) {
+			return item1;
+		} else if (enemy.currentHealth <= player.damage*8) {
+			return baseMove;
+		} else if (Math.random() <= (enemy.currentHealth/enemy.health)) {
+			return boss3Move1;
+		}
+	} else if (enemy.name == enemy41) {
+		if ((enemy.items[item1]) && (enemy.items[item1].quantity > 0) && (Math.random() < (1-(enemy.currentHealth/enemy.health)))) {
+			return item1;
+		} else if (player.status["Stunned"] == 0 && player.status["Immune"] == 0) {
+			return sporeMove;
+		}
+	} else if (enemy.name == enemy42) {
+		if ((enemy.items[item1]) && (enemy.items[item1].quantity > 0) && (Math.random() < (1-(enemy.currentHealth/enemy.health)))) {
+			return item1;
+		} else if (player.status["Burned"] == 0 && player.status["Stunned"] == 0 && player.status["Immune"] == 0) {
+			return firestormMove;
+		} else if ((player.status["Burned"] == 0 || player.status["Stunned"] == 0) && (Math.random() < 0.5) && (player.status["Immune"] == 0)) {
+			return firestormMove;
+		}
+	} else if (enemy.name == enemy43) {
+		if ((enemy.items[item1]) && (enemy.items[item1].quantity > 0) && (Math.random() < (1-(enemy.currentHealth/enemy.health)))) {
+			return item1;
+		}
+		let choices = [];
+		for (let p = 0; p < enemies.length; p++) {
+			if (!(enemies[p] === enemy)) {
+				if (enemies[p].status["Buffed"].length < 3) {
+					choices.push(supportMove1);
+				}
+				if (enemies[p].status["Reflecting"] == false) {
+					choices.push(supportMove2);
+				}
+				if (enemies[p].status["Immune"] == 0) {
+					choices.push(supportMove3);
+				}
+			}
+		}
+		if (choices.length > 0) {
+			return choices[Math.floor(Math.random() * choices.length)];
+		}
+	} else if (enemy.name == boss4) {
+		if ((enemy.items[item1]) && (enemy.items[item1].quantity > 0) && (Math.random() < (1-(enemy.currentHealth/enemy.health)))) {
+			return item1;
+		} else if (enemy.status["Buffed"].length >= 3) {
+			return baseMove;
+		} else if ((enemy.status["Buffed"].length == 2) && (Math.random() < (2/3))) {
+			return baseMove;
+		} else if ((enemy.status["Buffed"].length == 1) && (Math.random() < (1/3))) {
+			return baseMove;
+		} else if ((player.status["Stunned"] == 0) && (player.status["Immune"] == 0)) {
+			return boss4Move2;
+		} else if ((Math.random() < 0.5) && (((enemy.status["Burned"] > 0) || (enemy.status["Stunned"] > 0)) || ((player.status["Buffed"].length > 0) || (player.status["Reflecting"] == true) || (player.status["Immune"] > 0)))) {
+			return boss4Move3;
+		} else if ((enemy.items[item5]) && (enemy.items[item5].quantity > 0) && (enemy.status["Immune"] == 0)) {
+			return item5;
+		} else if ((player.status["Burned"] == 0) && (player.status["Immune"] == 0) && (Math.random() < 0.5)) {
+			return boss4Move1
+		} else if ((enemy.items[item3]) && (enemy.items[item3].quantity > 0) && (Math.random() < ((enemy.status["Buffed"].length == 0) ? 0.75 : ((enemy.status["Buffed"].length == 1) ? 0.35 : ((enemy.status["Buffed"].length == 2) ? 0.1 : 0))))) {
+			return item3;
+		} else {
+			return baseMove;
+		}
+	} else if (enemy.name == enemy52) {
+		if (Math.random() < 0.1) {
+			return evolveMove;
+		}
+	}
+	if ((enemy.items[item1]) && (enemy.items[item1].quantity > 0) && (Math.random() < (1-(enemy.currentHealth/enemy.health))) && ((enemy.name != boss1) || ((enemy.name == boss1) && (enemy.currentHealth < (Math.ceil(enemy.health/2)))))) {
+		return item1;
+	} else if (enemy.status["Buffed"].length >= 3) {
+		return baseMove;
+	} else if ((enemy.items[item5]) && (enemy.items[item5].quantity > 0) && (Math.random() < (Math.max((enemy.status["Immunity"] > 0) ? 0.1 : 0.5), (((enemy.status["Burned"] > 0) || (enemy.status["Stunned"] > 0)) ? 0.9 : 0)))) {
+		return item5;
+	} else if ((enemy.items[item4]) && (enemy.items[item4].quantity > 0) && (Math.random() < (((player.status["Buffed"].length > 0) || (player.status["Supercharged"] > 1)) ? 0.7 : 0.15))) {
+		return item4;
+	} else if ((enemy.items[item3]) && (enemy.items[item3].quantity > 0) && (Math.random() < ((enemy.status["Buffed"].length == 0) ? 0.75 : ((enemy.status["Buffed"].length == 1) ? 0.35 : ((enemy.status["Buffed"].length == 2) ? 0.1 : 0))))) {
+		return item3;
+	} else {
+		return baseMove;
+	}
+}
+
+async function performAction(actor, action, target, enemies, levelType) {
+	if (action == baseMove) {
+		let buffMultiplier = 1;
+		for (let i = 0; i < actor.status["Buffed"].length; i++) {
+			buffMultiplier *= 2;
+		}
+		let superchargeMultiplier = 1;
+		if (actor.status["Supercharged"]) {
+			superchargeMultiplier = actor.status["Supercharged"];
+			actor.status["Supercharged"] = 1;
+		}
+		let toDamage = actor.damage * buffMultiplier * superchargeMultiplier;
+		if (target.status["Reflecting"] == false) {
+			target.currentHealth = Math.max((target.currentHealth - toDamage), 0);
+			await log(`${actor.name} attacked ${target.name} for ${toDamage} damage.`, enemies);
+		} else if (target.status["Reflecting"] == true) {
+			let originalDamage = toDamage;
+			let reflectedDamage = 0;
+			while (true) {
+				toDamage -= 1;
+				reflectedDamage += 1;
+				if (target.currentHealth <= 0 || toDamage <= 0) {
+					break;
+				}
+				target.currentHealth = Math.max((target.currentHealth - 1), 0);
+				toDamage -= 1;
+				if (target.currentHealth <= 0 || toDamage <= 0) {
+					break;
+				}
+			}
+			await log(`${actor.name} attacked ${target.name} for ${originalDamage} damage.`, enemies);
+			actor.currentHealth = Math.max((actor.currentHealth - reflectedDamage), 0);
+			await log(`${target.name} reflected ${reflectedDamage} damage back to ${actor.name}.`, enemies);
+		}
+	} else if (action == item1) {
+		target.currentHealth = target.health;
+		actor.items[item1].quantity -= 1;
+		await log(`${actor.name} used ${action}.`, enemies);
+	} else if (action == item2) {
+		target.currentMana = target.mana;
+		actor.items[item2].quantity -= 1;
+		await log(`${actor.name} used ${action}.`, enemies);
+	} else if (action == item3) {
+		target.status["Buffed"].push(4);
+		actor.items[item3].quantity -= 1;
+		await log(`${actor.name} used ${action}.`, enemies);
+	} else if (action == item4) {
+		target.status["Reflecting"] = true;
+		actor.items[item4].quantity -= 1;
+		await log(`${actor.name} used ${action}.`, enemies);
+	} else if (action == item5) {
+		target.status["Immune"] += 2;
+		actor.items[item5].quantity -= 1;
+		await log(`${actor.name} used ${action}.`, enemies);
+		if (target.status["Burned"] > 0) {
+			target.status["Burned"] = 0;
+			await log(`${target.name} recovered from being burned.`, enemies);
+		}
+		if (target.status["Stunned"] > 0) {
+			target.status["Stunned"] = 0;
+			await log(`${target.name} recovered from being stunned.`, enemies);
+		}
+	} else if (action == spell1) {
+		let superchargeMultiplier = 1;
+		if (actor.status["Supercharged"]) {
+			superchargeMultiplier = actor.status["Supercharged"];
+			actor.status["Supercharged"] = 1;
+		}
+		if (target.status["Reflecting"] == false) {
+			let healthTransfer = Math.min(((player.level + 2) * superchargeMultiplier), (target.currentHealth));
+			target.currentHealth = Math.max((target.currentHealth - healthTransfer), 0);
+			actor.currentHealth = Math.min(actor.health, (actor.currentHealth + healthTransfer));
+			actor.currentMana -= (player.level + 2);
+			await log(`${actor.name} stole ${healthTransfer} health from ${target.name}.`, enemies);
+		} else {
+			let healthTransfer = (player.level + 2) * superchargeMultiplier;
+			let healthStolen = 0;
+			while (true) {
+				healthTransfer -= 1;
+				if (healthTransfer <= 0 || target.currentHealth <= 0) {
+					break;
+				}
+				target.currentHealth = Math.max((target.currentHealth - 1), 0);
+				actor.currentHealth = Math.min(actor.health, (actor.currentHealth + 1));
+				healthTransfer -= 1;
+				healthStolen += 1;
+			}
+			actor.currentMana -= (player.level + 2);
+			await log(`${actor.name} stole ${healthStolen} health from ${target.name}.`, enemies);
+		}
+	} else if (action == spell2 || action == pyroMove1 || action == boss4Move1) {
+		let boss3Move1Flag = false;
+		if ((actor === player) && (levelType == "boss3")) {
+			boss3Move1Count = 1;
+			boss3Move1Flag = true;
+		}
+		if (Array.isArray(target)) {
+			let superchargeMultiplier = 1;
+			if (actor.status["Supercharged"]) {
+				superchargeMultiplier = actor.status["Supercharged"];
+				actor.status["Supercharged"] = 1;
+			}
+			let wasReflected = 0;
+			for (let i = 0; i < target.length; i++) {
+				if ((target[i].status["Reflecting"] == true) && (Math.random() < 0.5)) {
+					wasReflected = Math.max((1 * superchargeMultiplier), wasReflected);
+				} else {
+					if (target[i].status["Immune"] == false) {
+						target[i].status["Burned"] = Math.max((1 * superchargeMultiplier), target[i].status["Burned"]);
+					}
+				}
+			}
+			actor.currentMana -= spellLibrary[spell2].cost;
+			await log(`${actor.name} used ${action} on all enemies.`, enemies);
+			if (boss3Move1Flag == true) {
+				await log(`${boss3}’s growth was stunted!`, enemies);
+			}
+			if (wasReflected > 0) {
+				if (actor.status["Immune"] == 0) {
+					actor.status["Burned"] = Math.max(wasReflected, actor.status["Burned"]);
+				}
+				await log(`${action} was reflected back to ${actor.name}.`, enemies);
+			}
+		} else {
+			let wasReflected = 0;
+			if ((target.status["Reflecting"] == true) && (Math.random() < 0.5)) {
+				wasReflected = 1;
+			} else {
+				if (target.status["Immune"] == 0) {
+					target.status["Burned"] = Math.max(target.status["Burned"], 1);
+				}
+			}
+			await log(`${actor.name} used ${action} on ${target.name}.`, enemies);
+			if (wasReflected > 0) {
+				if (actor.status["Immune"] == 0) {
+					actor.status["Burned"] = Math.max(wasReflected, actor.status["Burned"]);
+				}
+				await log(`${action} was reflected back to ${actor.name}.`, enemies);
+			}
+		}
+	} else if (action == spell3) {
+		let superchargeMultiplier = 1;
+		if (actor.status["Supercharged"]) {
+			superchargeMultiplier = actor.status["Supercharged"];
+			actor.status["Supercharged"] = 1;
+		}
+		let toDamage = actor.currentMana * superchargeMultiplier;
+		actor.currentMana = 0;
+		if (target.status["Reflecting"] == false) {
+			target.currentHealth = Math.max((target.currentHealth - toDamage), 0);
+			await log(`${actor.name} attacked ${target.name} for ${toDamage} damage.`, enemies);
+		} else if (target.status["Reflecting"] == true) {
+			let originalDamage = toDamage;
+			let reflectedDamage = 0;
+			while (true) {
+				toDamage -= 1;
+				reflectedDamage += 1;
+				if (target.currentHealth <= 0 || toDamage <= 0) {
+					break;
+				}
+				target.currentHealth = Math.max((target.currentHealth - 1), 0);
+				toDamage -= 1;
+				if (target.currentHealth <= 0 || toDamage <= 0) {
+					break;
+				}
+			}
+			await log(`${actor.name} attacked ${target.name} for ${originalDamage} damage.`, enemies);
+			actor.currentHealth = Math.max((actor.currentHealth - reflectedDamage), 0);
+			await log(`${target.name} reflected ${reflectedDamage} damage back to ${actor.name}.`, enemies);
+		}
+	} else if (action == spell4 || action == boss4Move2) {
+		if (Array.isArray(target)) {
+			let superchargeMultiplier = 1;
+			if (actor.status["Supercharged"]) {
+				superchargeMultiplier = actor.status["Supercharged"];
+				actor.status["Supercharged"] = 1;
+			}
+			let wasReflected = 0;
+			for (let i = 0; i < target.length; i++) {
+				if ((target[i].status["Reflecting"] == true) && (Math.random() < 0.5)) {
+					wasReflected = Math.max((1 * superchargeMultiplier), wasReflected);
+				} else {
+					if (target[i].status["Immune"] == false) {
+						target[i].status["Stunned"] = Math.max((1 * superchargeMultiplier), target[i].status["Stunned"]);
+					}
+				}
+			}
+			actor.currentMana -= spellLibrary[spell4].cost;
+			await log(`${actor.name} used ${action} on all enemies.`, enemies);
+			if (wasReflected > 0) {
+				if (actor.status["Immune"] == 0) {
+					actor.status["Stunned"] = Math.max(wasReflected, actor.status["Stunned"]);
+				}
+				await log(`${action} was reflected back to ${actor.name}.`, enemies);
+			}
+		} else {
+			let stunLevel = 1;
+			if (action == boss4Move2) {
+				stunLevel = 64;
+			}
+			let wasReflected = 0;
+			if ((target.status["Reflecting"] == true) && (Math.random() < 0.5)) {
+				wasReflected = stunLevel;
+			} else {
+				if (target.status["Immune"] == 0) {
+					target.status["Stunned"] = Math.max(target.status["Stunned"], stunLevel);
+				}
+			}
+			await log(`${actor.name} used ${action} on ${target.name}.`, enemies);
+			if (wasReflected > 0) {
+				if (actor.status["Immune"] == 0) {
+					actor.status["Stunned"] = Math.max(wasReflected, actor.status["Stunned"]);
+				}
+				await log(`${action} was reflected back to ${actor.name}.`, enemies);
+			}
+		}
+	} else if (action == spell5) {
+		actor.status["Supercharged"] *= 2;
+		actor.currentMana -= spellLibrary[spell5].cost;
+		await log(`${actor.name} is preparing something powerful.`, enemies);
+	} else if (action == doctorMove) {
+		if (Array.isArray(target)) {
+			for (let i = 0; i < target.length; i++) {
+				if (!(target[i] === actor)) {
+					target[i].currentHealth = Math.min((target[i].currentHealth + 2), target[i].health);
+				}
+			}
+			await log(`${actor.name} used ${action}. All other enemies gained 2 health.`, enemies);
+		}
+	} else if (action == boss1Move1) {
+		if (Array.isArray(target)) {
+			let otherEnemies = [];
+			for (let p = 0; p < target.length; p++) {
+				if (!(target[p] === actor)) {
+					otherEnemies.push(target[p]);
+				}
+			}
+			let singleTarget = otherEnemies[Math.floor(Math.random() * otherEnemies.length)];
+			let absorbCount = 10;
+			if (singleTarget.status["Reflecting"] == true) {
+				absorbCount = 5;
+			}
+			singleTarget.currentHealth = Math.max(0, (singleTarget.currentHealth - absorbCount));
+			actor.health += absorbCount;
+			actor.currentHealth = Math.min(actor.health, (actor.currentHealth + absorbCount));
+			if (singleTarget.status["Burned"] > 0) {
+				actor.status["Burned"] = Math.max(actor.status["Burned"], singleTarget.status["Burned"]);
+			}
+			if (singleTarget.status["Buffed"].length > actor.status["Buffed"].length) {
+				actor.status["Buffed"] = [...singleTarget.status["Buffed"]];
+			}
+			if (singleTarget.status["Reflecting"] == true) {
+				actor.status["Reflecting"] = true;
+			}
+			if (singleTarget.status["Stunned"] > 0) {
+				actor.status["Stunned"] = Math.max(actor.status["Stunned"], singleTarget.status["Stunned"]);
+			}
+			if (singleTarget.status["Immune"] > actor.status["Immune"]) {
+				actor.status["Immune"] = singleTarget.status["Immune"];
+			}
+			await log(`${actor.name} used ${action} on ${singleTarget.name} and increased its health.`, enemies);
+		}
+	} else if (action == boss1Move2) {
+		if (Array.isArray(target)) {
+			let hurtEnemies = [];
+			for (let p = 0; p < target.length; p++) {
+				if (target[p].currentHealth < target[p].health) {
+					hurtEnemies.push(target[p]);
+				}
+			}
+			let singleTarget = hurtEnemies[Math.floor(Math.random() * hurtEnemies.length)];
+			singleTarget.currentHealth = Math.min(singleTarget.health, (singleTarget.currentHealth + 10));
+			if (singleTarget === actor) {
+				await log(`${actor.name} used ${action} on itself.`, enemies);
+			} else {
+				await log(`${actor.name} used ${action} on ${singleTarget.name}.`, enemies);
+			}
+		}
+	} else if (action == rockMove) {
+		let messageId = Math.floor(Math.random() * 5);
+		if (messageId == 0) {
+			await log(`${actor.name} sat there and looked pretty.`, enemies);
+		} else if (messageId == 1) {
+			await log(`${actor.name} continued existing… for some reason.`, enemies);
+		} else if (messageId == 2) {
+			await log(`${actor.name} used ${action}. It was super effective!`, enemies);
+		} else if (messageId == 3) {
+			await log(`${actor.name} did absolutely nothing.`, enemies);
+		} else if (messageId == 4) {
+			await log(`${actor.name} stares at you menacingly.`, enemies);
+		}
+	} else if (action == makerMove) {
+		let currentIndex = 0;
+		for (let r = 0; r < enemies.length; r++) {
+			if (enemies[r] === actor) {
+				currentIndex = r;
+			}
+		}
+		let new1 = enemyLibrary[enemy21](player.level);
+		let new2 = enemyLibrary[enemy21](player.level);
+		new1.status["Burned"] = enemies[currentIndex].status["Burned"];
+		new2.status["Burned"] = enemies[currentIndex].status["Burned"];
+		new1.status["Buffed"] = [...enemies[currentIndex].status["Buffed"]];
+		new2.status["Buffed"] = [...enemies[currentIndex].status["Buffed"]];
+		new1.status["Reflecting"] = enemies[currentIndex].status["Reflecting"];
+		new2.status["Reflecting"] = enemies[currentIndex].status["Reflecting"];
+		new1.status["Stunned"] = enemies[currentIndex].status["Stunned"];
+		new2.status["Stunned"] = enemies[currentIndex].status["Stunned"];
+		new1.status["Immune"] = enemies[currentIndex].status["Immune"];
+		new2.status["Immune"] = enemies[currentIndex].status["Immune"];
+		if (!actor.subordinates) {
+			actor.subordinates = [];
+		}
+		actor.subordinates.push(new1);
+		actor.subordinates.push(new2);
+		enemies.splice((currentIndex + 1), 0, new1, new2);
+		await log(`${actor.name} used ${action}.`, enemies);
+		return 2;
+	} else if (action == boss2Move1) {
+		let currentIndex = 0;
+		for (let r = 0; r < enemies.length; r++) {
+			if (enemies[r] === actor) {
+				currentIndex = r;
+			}
+		}
+		let new1 = enemyLibrary[enemy23](player.level);
+		new1.status["Burned"] = enemies[currentIndex].status["Burned"];
+		new1.status["Buffed"] = [...enemies[currentIndex].status["Buffed"]];
+		new1.status["Reflecting"] = enemies[currentIndex].status["Reflecting"];
+		new1.status["Stunned"] = enemies[currentIndex].status["Stunned"];
+		new1.status["Immune"] = enemies[currentIndex].status["Immune"];
+		if (!actor.subordinates) {
+			actor.subordinates = [];
+		}
+		actor.subordinates.push(new1);
+		enemies.splice((currentIndex + 1), 0, new1);
+		await log(`${actor.name} used ${action}.`, enemies);
+		return 1;
+	} else if (action == pyroMove2) {
+		if (target.status["Reflecting"] == true) {
+			let wasReflected = 0;
+			let toDamage = 5;
+			let reflectedDamage = 0;
+			while (true) {
+				toDamage -= 1;
+				reflectedDamage += 1;
+				if (target.currentHealth <= 0 || toDamage <= 0) {
+					break;
+				}
+				target.currentHealth = Math.max((target.currentHealth - 1), 0);
+				toDamage -= 1;
+				if (target.currentHealth <= 0 || toDamage <= 0) {
+					break;
+				}
+			}
+			if (Math.random() < 0.5) {
+				if (Math.random() < 0.5) {
+					wasReflected = 1;
+				} else {
+					if (target.status["Immune"] == 0) {
+						target.status["Burned"] = Math.max(target.status["Burned"], 1);
+					}
+				}
+			}
+			await log(`${actor.name} used ${action} on ${target.name}.`, enemies);
+			actor.currentHealth = Math.max((actor.currentHealth - reflectedDamage), 0);
+			if ((wasReflected > 0) && (actor.status["Immune"] == 0)) {
+				actor.status["Burned"] = Math.max(actor.status["Burned"], wasReflected);
+			}
+			if ((reflectedDamage > 0) || (wasReflected > 0)) {
+				await log(`${action} was reflected back to ${actor.name}.`, enemies);
+			}
+		} else {
+			target.currentHealth = Math.max(target.currentHealth - 5, 0);
+			if (target.status["Immune"] == 0 && Math.random() < 0.5) {
+				target.status["Burned"] = Math.max(target.status["Burned"], 1);
+			}
+			await log(`${actor.name} used ${action} on ${target.name}.`, enemies);
+		}
+	} else if (action == boss3Move1) {
+		target.damage += boss3Move1Count;
+		if (target.status["Burned"] == 0) {
+			boss3Move1Count += 1;
+		}
+		await log(`${actor.name} permanently increased its damage.`, enemies);
+	} else if (action == sporeMove) {
+		if (target.status["Reflecting"] == false) {
+			target.currentHealth = Math.max(target.currentHealth - 1, 0);
+			if (target.status["Immune"] == 0) {
+				target.status["Stunned"] = Math.max(target.status["Stunned"], 1);
+			}
+			await log(`${actor.name} used ${action} on ${target.name}.`, enemies);
+		} else if (target.status["Reflecting"] == true) {
+			let wasReflected = 0;
+			if (Math.random() < 0.5) {
+				if (target.status["Immune"] == 0) {
+					target.status["Stunned"] = Math.max(target.status["Stunned"], 1);
+				}
+			} else {
+				wasReflected = 1;
+			}
+			await log(`${actor.name} used ${action} on ${target.name}.`, enemies);
+			actor.currentHealth = Math.max(actor.currentHealth - 1, 0);
+			if ((wasReflected > 0) && (actor.status["Immune"] == 0)) {
+				actor.status["Stunned"] = Math.max(actor.status["Stunned"], wasReflected);
+			}
+			await log(`${action} was reflected back to ${actor.name}.`, enemies);
+		}
+	} else if (action == firestormMove) {
+		let oneFourth = Math.floor(Math.random()*4);
+		if (oneFourth == 0) {
+			await log(`${actor.name} used ${action} on ${target.name}, but it failed!`, enemies);
+		} else if (oneFourth == 1) {
+			let wasReflected = 0;
+			if ((target.status["Reflecting"] == true) && (Math.random() < 0.5)) {
+				wasReflected = 1;
+			} else {
+				if (target.status["Immune"] == 0) {
+					target.status["Burned"] = Math.max(target.status["Burned"], 1);
+				}
+			}
+			await log(`${actor.name} burned ${target.name} using ${action}.`, enemies);
+			if (wasReflected > 0) {
+				if (actor.status["Immune"] == 0) {
+					actor.status["Burned"] = Math.max(wasReflected, actor.status["Burned"]);
+				}
+				await log(`${action}’s burn was reflected back to ${actor.name}.`, enemies);
+			}
+		} else if (oneFourth == 2) {
+			let wasReflected = 0;
+			if ((target.status["Reflecting"] == true) && (Math.random() < 0.5)) {
+				wasReflected = 1;
+			} else {
+				if (target.status["Immune"] == 0) {
+					target.status["Stunned"] = Math.max(target.status["Stunned"], 1);
+				}
+			}
+			await log(`${actor.name} Stunned ${target.name} using ${action}.`, enemies);
+			if (wasReflected > 0) {
+				if (actor.status["Immune"] == 0) {
+					actor.status["Stunned"] = Math.max(wasReflected, actor.status["Stunned"]);
+				}
+				await log(`${action}’s stun was reflected back to ${actor.name}.`, enemies);
+			}
+		} else if (oneFourth == 3) {
+			let wasReflected = 0;
+			if ((target.status["Reflecting"] == true) && (Math.random() < 0.5)) {
+				wasReflected = 1;
+			} else {
+				if (target.status["Immune"] == 0) {
+					target.status["Burned"] = Math.max(target.status["Burned"], 1);
+					target.status["Stunned"] = Math.max(target.status["Stunned"], 1);
+				}
+			}
+			await log(`${actor.name} burned and stunned ${target.name} using ${action}.`, enemies);
+			if (wasReflected > 0) {
+				if (actor.status["Immune"] == 0) {
+					actor.status["Burned"] = Math.max(wasReflected, actor.status["Burned"]);
+					actor.status["Stunned"] = Math.max(wasReflected, actor.status["Stunned"]);
+				}
+				await log(`${action}’s burn and stun was reflected back to ${actor.name}.`, enemies);
+			}
+		}
+	} else if (action == supportMove1) {
+		if (Array.isArray(target)) {
+			for (let p = 0; p < target.length; p++) {
+				if ((target[p].status["Buffed"].length < 3) && (!(target[p] === actor))) {
+					target[p].status["Buffed"].push(4);
+				}
+			}
+		}
+		await log(`${actor.name} used ${action} on all enemies.`, enemies);
+	} else if (action == supportMove2) {
+		if (Array.isArray(target)) {
+			for (let p = 0; p < target.length; p++) {
+				if (!(target[p] === actor)) {
+					target[p].status["Reflecting"] = true;
+				}
+			}
+		}
+		await log(`${actor.name} used ${action} on all enemies.`, enemies)
+	} else if (action == supportMove3) {
+		if (Array.isArray(target)) {
+			for (let p = 0; p < target.length; p++) {
+				if (!(target[p] === actor)) {
+					target[p].status["Immune"] += 2;
+					target[p].status["Burned"] = 0;
+					target[p].status["Stunned"] = 0;
+				}
+			}
+		}
+		await log(`${actor.name} used ${action} on all enemies.`, enemies)
+	} else if (action == boss4Move3) {
+		target.status["Burned"] = Math.max(actor.status["Burned"], target.status["Burned"]);
+		actor.status["Burned"] = 0;
+		target.status["Stunned"] = Math.max(actor.status["Stunned"], target.status["Stunned"]);
+		actor.status["Stunned"] = 0;
+		for (let p = 0; p < target.status["Buffed"].length; p++) {
+			actor.status["Buffed"].push(target.status["Buffed"][p]);
+		}
+		for (let p = target.status["Buffed"].length - 1; p >= 0; p--) {
+			target.status["Buffed"].splice(p, 1);
+		}
+		if (target.status["Reflecting"] == true) {
+			actor.status["Reflecting"] = target.status["Reflecting"];
+			target.status["Reflecting"] = false;
+		}
+		actor.status["Immune"] += target.status["Immune"];
+		target.status["Immune"] = 0;
+		await log(`${actor.name} used ${action} on ${target.name}.`, enemies);
+	} else if (action == evolveMove) {
+		let newCreature = enemyLibrary[enemyNames[Math.floor(Math.random() * enemyNames.length)]](player.level);
+		let oldName = actor.name;
+		actor.name = newCreature.name;
+		actor.level = newCreature.level;
+		actor.health = newCreature.health;
+		actor.currentHealth = newCreature.health;
+		actor.damage = newCreature.damage;
+		let copiedItems = actor.items;
+		actor.items = {};
+		for (item in itemLibrary) {
+			if (((copiedItems[item]) && (copiedItems[item].quantity > 0)) || ((newCreature.items[item]) && (newCreature.items[item].quantity > 0))) {
+				actor.items[item] = {...itemLibrary[item]};
+				actor.items[item].quantity = Math.min((((copiedItems[item]) ? (copiedItems[item].quantity) : (0)) + ((newCreature.items[item]) ? (newCreature.items[item].quantity) : (0))), 99);
+			}
+		}
+		await log(`${oldName} evolved into ${actor.name}!`, enemies)
+	}
+}
+
+function killSubordinates(manager) {
+	if (manager.subordinates) {
+		for (let u = 0; u < manager.subordinates.length; u++) {
+			manager.subordinates[u].currentHealth = 0;
+			killSubordinates(manager.subordinates[u]);
+		}
+	}
+}
+
+function loseGame() {
+	let output = "";
+	output += "<div id='loseMessage' class='overlay zindex2 textWrap winLoseOverlay'>";
+	output += "<div class='winLoseMessage relative center'>";
+	output += "<div class='fullX'><h2>You Lost!</h2></div>";
+	output += "<button class='buttonWinLose' onclick='closeOverlay(\"loseMessage\");location.reload()'>Try Again</button>";
+	output += "</div>";
+	output += "</div>";
+	document.body.innerHTML += output;
+	document.getElementById('board').scrollTop = document.getElementById('board').scrollHeight;
+}
+
+function winGame() {
+	let output = "";
+	output += "<div id='winMessage' class='overlay zindex2 textWrap winLoseOverlay'>";
+	output += "<div class='winLoseMessage relative center'>";
+	output += "<div class='fullX'><h2>You Won!</h2></div>";
+	output += "<button class='buttonWinLose' onclick='closeOverlay(\"winMessage\");renderMenu()'>Return to Menu</button>";
+	output += "</div>";
+	output += "</div>";
+	document.body.innerHTML += output;
+	document.getElementById('board').scrollTop = document.getElementById('board').scrollHeight;
+}
+
+async function levelUp(enemies) {
+	player.exp -= (player.level*100);
+	player.level += 1;
+	player.damage += 1;
+	player.health += 10;
+	player.currentHealth += 10;
+	player.mana += 5;
+	player.currentMana += 5;
+	if (player.level == 2) {
+		player.items[item1] = {...itemLibrary[item1]};
+		player.items[item1].quantity = 3;
+	}
+	if (player.level == 3) {
+		player.spells[spell1] = {...spellLibrary[spell1]};
+	}
+	if (player.level == 5) {
+		player.unlockedEnemies.push(enemy21, enemy22, enemy23);
+	}
+	if (player.level == 6) {
+		player.items[item2] = {...itemLibrary[item2]};
+		player.items[item2].quantity = 3;
+	}
+	if (player.level == 7) {
+		player.spells[spell2] = {...spellLibrary[spell2]};
+	}
+	if (player.level == 9) {
+		player.unlockedEnemies.push(enemy31, enemy32, enemy33);
+	}
+	if (player.level == 10) {
+		player.items[item3] = {...itemLibrary[item3]};
+		player.items[item3].quantity = 3;
+	}
+	if (player.level == 11) {
+		player.spells[spell3] = {...spellLibrary[spell3]};
+	}
+	if (player.level == 13) {
+		player.unlockedEnemies.push(enemy41, enemy42, enemy43);
+	}
+	if (player.level == 14) {
+		player.items[item4] = {...itemLibrary[item4]};
+		player.items[item4].quantity = 3;
+	}
+	if (player.level == 15) {
+		player.spells[spell4] = {...spellLibrary[spell4]};
+	}
+	if (player.level == 17) {
+		player.unlockedEnemies.push(enemy51, enemy52, enemy53);
+	}
+	if (player.level == 18) {
+		player.items[item5] = {...itemLibrary[item5]};
+		player.items[item5].quantity = 3;
+	}
+	if (player.level == 19) {
+		player.spells[spell5] = {...spellLibrary[spell5]};
+	}
+	await log(`${player.name} leveled up to level ${player.level}!`, enemies);
+}
+
+function earnAchievement(achievementName) {
+	if ((achievementLibrary[achievementName]) && !(player.achievements[achievementName])) {
+		player.achievements[achievementName] = {...achievementLibrary[achievementName]};
+		let notif = document.createElement('div');
+		notif.classList.add('notification');
+		notif.textContent = `Achievement Earned: ${achievementName}`;
+		document.getElementById('achievementNotifications').appendChild(notif);
+		setTimeout(() => {
+			document.getElementById('achievementNotifications').querySelectorAll('div').forEach((div) => {
+				if (div.textContent == `Achievement Earned: ${achievementName}`) {
+					div.classList.add('invisible');
+				}
+			});
+			setTimeout(() => {
+				document.getElementById('achievementNotifications').querySelectorAll('div').forEach((div) => {
+					if (div.textContent == `Achievement Earned: ${achievementName}`) {
+						div.remove();
+					}
+				});
+			}, 2000);
+		}, 3000);
+	}
+}
+
+function start() {
+	let playerName = document.getElementById('playerName').value;
+	if (playerName.length >= 1 && playerName.length <= 20) {
+		player = new Character(playerName, 1, 0, 10, 1, 5, {}, [], [], [enemy11, enemy12, enemy13]);
+		renderMenu();
+	} else {
+		document.getElementById('nameError').innerHTML = "Please enter a name between 1-20 characters";
+	}
+}
+
+//Debug function to obtain a custom profile
+function makeDebugProfile(slot) {
+	let w = new Character(name = "WWWWWWWWWWWWWWWWWWWW", level = 20, exp = 1950, health = 200, damage = 20, mana = 100, defaultItems = {[item1]: 99, [item2]: 99, [item3]: 99, [item4]: 99, [item5]: 99}, defaultSpells = Object.keys(spellLibrary), defaultAchievements = Object.keys(achievementLibrary), unlockedEnemies = enemyNames);
+	localStorage.setItem("player" + slot.toString(), JSON.stringify(w));
+}
+
+//Debug function to reset all save data
+function debugClearData() {
+	localStorage.clear();
+}
+
+//Debug function calls
+//debugClearData();
+//makeDebugProfile(3);
+
+window.addEventListener('load', function() {setTimeout(renderSaveMenu, 500);});
+
+</script>
+</body>
+</html>
